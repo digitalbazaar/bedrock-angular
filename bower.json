@@ -1,0 +1,7 @@
+{
+  "name": "bedrock-angular",
+  "main": "./app.js",
+  "ignore": [],
+  "dependencies": {
+  }
+}
