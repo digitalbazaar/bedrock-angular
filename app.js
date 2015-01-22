@@ -1,7 +1,7 @@
 /*!
- * Main App module.
+ * Main Bedrock Application module.
  *
- * Copyright (c) 2012-2014 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2012-2015 Digital Bazaar, Inc. All rights reserved.
  *
  * @author Dave Longley
  */
@@ -13,22 +13,23 @@ define([
   'angular-file-upload',
   'angular-route',
   'angular-sanitize',
-  'angular-ui-select',
+  'angular-stackables',
   'bootstrap',
+  'es6-promise',
   'ng-multi-transclude',
-  'promise',
-  'stackables',
-  'app/configs',
-  'app/components/components',
-  'app/templates'
+  'ui-select'
 ], function(jsonld, angular) {
 
 'use strict';
 
 var module = angular.module('app', [
-  'multi-transclude', 'ngAnimate', 'ngRoute', 'ngSanitize',
-  'ui.bootstrap', 'angularFileUpload', 'ui.select', 'stackables',
-  'app.configs', 'app.components', 'app.templates']);
+  'angularFileUpload', 'multi-transclude',
+  'ngAnimate', 'ngRoute', 'ngSanitize', 'stackables',
+  'ui.bootstrap', 'ui.select']);
+
+// main shared config
+module.value('config', {data: window.data});
+
 /* @ngInject */
 module.config(function($locationProvider, $routeProvider, $httpProvider) {
   $locationProvider.html5Mode(true);
