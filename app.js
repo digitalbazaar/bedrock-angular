@@ -6,29 +6,70 @@
  * @author Dave Longley
  */
 define([
-  'jsonld',
   'angular',
+  'jsonld',
+  'requirejs/events',
   'angular-animate',
   'angular-bootstrap',
   'angular-file-upload',
   'angular-route',
   'angular-sanitize',
-  'angular-stackables',
-  'bootstrap',
   'es6-promise',
+  'jquery',
   'ng-multi-transclude',
-  'ui-select'
-], function(jsonld, angular) {
+  'underscore'
+], function(angular, jsonld, events) {
 
 'use strict';
 
-var module = angular.module('app', [
-  'angularFileUpload', 'multi-transclude',
-  'ngAnimate', 'ngRoute', 'ngSanitize', 'stackables',
-  'ui.bootstrap', 'ui.select']);
+// rewrite angular to keep track of declared modules
+var modules = {};
+angular._module = angular.module;
+angular.module = function(name) {
+  return modules[name] = angular._module.apply(angular, arguments);
+};
 
 // main shared config
-module.value('config', {data: window.data});
+angular.module('app.config', []).value('config', {data: window.data});
+
+// TODO: events should be an optional dependency to allow loading via
+// other mechanisms
+events.on('bedrock.requirejs.ready', function() {
+  api.init();
+  api.start();
+});
+
+// module API to be exported
+var api = {};
+
+/**
+ * Initializes the main angular application; to be called after all other
+ * angular modules have been declared. This approach currently requires all
+ * modules to be available before bootstrapping the application; a future
+ * implementation should allow for lazy-loading as desired.
+ */
+api.init = init;
+
+/**
+ * Starts the main angular application by bootstrapping angular.
+ */
+api.start = function() {
+  // bootstrap and set ng-app to indicate to test runner/other external apps
+  // that application has bootstrapped (use strictDi when minified)
+  var root = angular.element('html');
+  angular.bootstrap(root, ['app'], {strictDi: window.data.minify});
+  root.attr('ng-app', 'app');
+};
+
+return api;
+
+function init() {
+
+// declare main module; depend core dependencies and all other loaded modules
+var deps = ['angularFileUpload', 'multi-transclude',
+  'ngAnimate', 'ngRoute', 'ngSanitize', 'ui.bootstrap'];
+deps = deps.concat(Object.keys(modules));
+var module = angular.module('app', deps);
 
 /* @ngInject */
 module.config(function($locationProvider, $routeProvider, $httpProvider) {
@@ -256,11 +297,7 @@ module.run(function(
   }
 });
 
-// bootstrap and set ng-app to indicate to test runner/other external apps
-// that application has bootstrapped (use strictDi when minified)
-var root = angular.element('html');
-angular.bootstrap(root, ['app'], {strictDi: window.data.minify});
-root.attr('ng-app', 'app');
+}
 
 // from angular.js for route matching
 // TODO: could probably be simplified
