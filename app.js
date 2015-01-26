@@ -238,6 +238,9 @@ module.run(function(
   };
 
   function locationChangeStart(event) {
+    // TODO: any login-related stuff needs to be removed from here and
+    // put into its appropriate module
+
     if(config.data.queuedRequest) {
       // re-route to login if not already there
       if($location.path() !== '/session/login') {
