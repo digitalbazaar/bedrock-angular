@@ -31,7 +31,7 @@ angular.module = function(name) {
 };
 
 // main shared config
-angular.module('app.config', []).value('config', {data: window.data});
+angular.module('bedrock.config', []).value('config', {data: window.data});
 
 // TODO: events should be an optional dependency to allow loading via
 // other mechanisms
@@ -58,8 +58,8 @@ api.start = function() {
   // bootstrap and set ng-app to indicate to test runner/other external apps
   // that application has bootstrapped (use strictDi when minified)
   var root = angular.element('html');
-  angular.bootstrap(root, ['app'], {strictDi: window.data.minify});
-  root.attr('ng-app', 'app');
+  angular.bootstrap(root, ['bedrock'], {strictDi: window.data.minify});
+  root.attr('ng-app', 'bedrock');
 };
 
 return api;
@@ -70,7 +70,7 @@ function init() {
 var deps = ['angularFileUpload', 'multi-transclude',
   'ngAnimate', 'ngRoute', 'ngSanitize', 'ui.bootstrap'];
 deps = deps.concat(Object.keys(modules));
-var module = angular.module('app', deps);
+var module = angular.module('bedrock', deps);
 
 module.directive(demoWarningDirective);
 
