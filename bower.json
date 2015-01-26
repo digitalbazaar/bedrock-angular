@@ -1,6 +1,7 @@
 {
   "name": "bedrock-angular",
   "main": ["./app.js", "./less/app.less"],
+  "moduleType": ["amd"],
   "ignore": [
     "package.json"
   ],
