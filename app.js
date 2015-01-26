@@ -9,6 +9,7 @@ define([
   'angular',
   'jsonld',
   'requirejs/events',
+  './demo-warning-directive',
   'angular-animate',
   'angular-bootstrap',
   'angular-file-upload',
@@ -18,7 +19,7 @@ define([
   'jquery',
   'ng-multi-transclude',
   'underscore'
-], function(angular, jsonld, events) {
+], function(angular, jsonld, events, demoWarningDirective) {
 
 'use strict';
 
@@ -70,6 +71,8 @@ var deps = ['angularFileUpload', 'multi-transclude',
   'ngAnimate', 'ngRoute', 'ngSanitize', 'ui.bootstrap'];
 deps = deps.concat(Object.keys(modules));
 var module = angular.module('app', deps);
+
+module.directive(demoWarningDirective);
 
 /* @ngInject */
 module.config(function($locationProvider, $routeProvider, $httpProvider) {
