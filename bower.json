@@ -3,6 +3,8 @@
   "main": ["./app.js", "./less/app.less"],
   "moduleType": ["amd"],
   "ignore": [
+    "bedrock",
+    "bedrock.json",
     "package.json"
   ],
   "dependencies": {
