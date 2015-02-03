@@ -8,7 +8,6 @@
     "package.json"
   ],
   "dependencies": {
-    "almond": "~0.3.0",
     "angular": "~1.3.2",
     "angular-animate": "~1.3.2",
     "angular-bootstrap": "~0.12.0",
