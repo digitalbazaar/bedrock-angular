@@ -131,16 +131,22 @@ module.config(function(
   });
 
   /* @ngInject */
-  $provide.decorator('$templateCache', function($delegate, config) {
+  $provide.decorator('$templateRequest', function($delegate, config) {
+    // get base URL for modules
+    var baseUrl = requirejs.toUrl('bedrock-angular');
+    baseUrl = baseUrl.substr(0, baseUrl.indexOf('bedrock-angular'));
     var overrides = config.data.angular.templates.overrides;
-    $delegate._get = $delegate.get;
-    $delegate.get = function(url) {
-      if(url in overrides) {
-        url = overrides[url];
+    return function(tpl) {
+      var relativeUrl = tpl;
+      if(tpl.indexOf(baseUrl) === 0) {
+        relativeUrl = tpl.substr(baseUrl.length);
       }
-      return $delegate._get(url);
+      if(relativeUrl in overrides) {
+        tpl = baseUrl + overrides[relativeUrl];
+      }
+      arguments[0] = tpl;
+      return $delegate.apply($delegate, arguments);
     };
-    return $delegate;
   });
 });
 
