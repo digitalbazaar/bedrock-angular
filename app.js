@@ -92,7 +92,8 @@ var module = angular.module('bedrock', deps);
 module.directive(demoWarningDirective);
 
 /* @ngInject */
-module.config(function($locationProvider, $routeProvider, $httpProvider) {
+module.config(function(
+  $httpProvider, $locationProvider, $provide, $routeProvider) {
   $locationProvider.html5Mode(true);
   $locationProvider.hashPrefix('!');
 
@@ -127,6 +128,19 @@ module.config(function($locationProvider, $routeProvider, $httpProvider) {
         return $q.reject(error);
       }
     };
+  });
+
+  /* @ngInject */
+  $provide.decorator('$templateCache', function($delegate, config) {
+    var overrides = config.data.angular.templates.overrides;
+    $delegate._get = $delegate.get;
+    $delegate.get = function(url) {
+      if(url in overrides) {
+        url = overrides[url];
+      }
+      return $delegate._get(url);
+    };
+    return $delegate;
   });
 });
 
