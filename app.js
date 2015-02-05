@@ -5,6 +5,19 @@
  *
  * @author Dave Longley
  */
+(function() {
+
+// if angular is globally defined, update early to track of declared modules
+if(typeof angular !== 'undefined') {
+  angular._bedrock = {modules: {}};
+  angular._module = angular.module;
+  angular.module = function(name) {
+    var mod = angular._bedrock.modules[name] =
+      angular._module.apply(angular, arguments);
+    return mod;
+  };
+}
+
 define([
   'angular',
   'jsonld',
@@ -23,12 +36,16 @@ define([
 
 'use strict';
 
-// rewrite angular to keep track of declared modules
-var modules = {};
-angular._module = angular.module;
-angular.module = function(name) {
-  return modules[name] = angular._module.apply(angular, arguments);
-};
+if(!angular._bedrock) {
+  // rewrite angular to keep track of declared modules
+  angular._bedrock = {modules: {}};
+  angular._module = angular.module;
+  angular.module = function(name) {
+    var mod = angular._bedrock.modules[name] =
+      angular._module.apply(angular, arguments);
+    return mod;
+  };
+}
 
 // main shared config
 angular.module('bedrock.config', []).value('config', {data: window.data});
@@ -69,7 +86,7 @@ function init() {
 // declare main module; depend core dependencies and all other loaded modules
 var deps = ['angularFileUpload', 'multi-transclude',
   'ngAnimate', 'ngRoute', 'ngSanitize', 'ui.bootstrap'];
-deps = deps.concat(Object.keys(modules));
+deps = deps.concat(Object.keys(angular._bedrock.modules));
 var module = angular.module('bedrock', deps);
 
 module.directive(demoWarningDirective);
@@ -326,3 +343,5 @@ function getRouteRegex(when) {
 }
 
 });
+
+})();
