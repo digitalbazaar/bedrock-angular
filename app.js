@@ -150,6 +150,8 @@ module.config(function(
   });
 });
 
+// TODO: `util` seems like it should be a service, why isn't it?
+
 // utility functions
 var util = {};
 module.value('util', util);
@@ -185,6 +187,26 @@ util.zeroFill = function(num) {
   return (num < 10) ? '0' + num : '' + num;
 };
 
+var _routes;
+util.getRouteFromPath = function($route, path) {
+  if(!_routes) {
+    // init routes
+    _routes = [];
+    angular.forEach($route.routes, function(route, path) {
+      _routes.push({
+        route: route,
+        regex: getRouteRegex(path)
+      });
+    });
+  }
+  for(var i = 0; i < _routes.length; ++i) {
+    if(_routes[i].regex.test(path)) {
+      return _routes[i].route;
+    }
+  }
+  return null;
+};
+
 /* @ngInject */
 module.run(function(
   $http, $location, $rootScope, $route, $window, config, util) {
@@ -212,17 +234,8 @@ module.run(function(
   $rootScope.productionMode = $window.data.productionMode;
   $rootScope.demoWarningUrl = $window.data.demoWarningUrl;
 
-  // build route regexes
-  var routeRegexes = [];
-  angular.forEach($route.routes, function(route, path) {
-    routeRegexes.push({
-      route: route,
-      regex: getRouteRegex(path)
-    });
-  });
-
-  // tracks whether current page is using an angular view
-  var usingView = false;
+  // tracks whether current page is using an angular view (page is a route)
+  var onRoute = false;
 
   // do immediate initial location change prior to loading any page content
   // in case a redirect is necessary
@@ -230,9 +243,9 @@ module.run(function(
 
   $rootScope.$on('$locationChangeStart', locationChangeStart);
 
-  // monitor whether or not an angular view is in use
+  // monitor whether or not an angular view is in use (current page is a route)
   $rootScope.$on('$viewContentLoaded', function() {
-    usingView = true;
+    onRoute = true;
   });
 
   // route info
@@ -275,65 +288,38 @@ module.run(function(
   };
 
   function locationChangeStart(event) {
-    // TODO: any login-related stuff needs to be removed from here and
-    // put into its appropriate module
+    /* Handle switching between single-page app routes and server-side
+    rendered pages.
 
-    if(config.data.queuedRequest) {
-      // re-route to login if not already there
-      if($location.path() !== '/session/login') {
-        $location.url('/session/login');
-      }
+    The current location is: $window.location.href
+    The new location is: $location.path()
+
+    If $location.absUrl() matches $window.location.href, we don't need to
+    reload the page as there would be no location change. Otherwise, we need
+    to do a full page reload unless the location change is not inter-route.
+    In other words, unless the current page is a route and we're changing to
+    another route, then we must reload. The possible location change
+    combinations and their reload requirements are below:
+
+    non-route => non-route (must reload)
+    non-route => route (must reload)
+    route => non-route (must reload)
+    route => route (no reload necessary)
+    */
+
+    // return early if the new location wouldn't change the current one
+    if($window.location.href === $location.absUrl()) {
       return;
     }
 
-    // session auth check
-    var authenticated = !!(config.data.session || {}).identity;
-
-    // don't reload the same authenticated page
-    if(authenticated && $window.location.href === $location.absUrl()) {
-      return;
-    }
-
-    // determine if full page reload is needed, yes if:
-    // 1. not changing location to the same page
-    // 2. switching from non-view to view (non-route to route)
-    // 3. switching from view to non-view
-    var mustReload = ($window.location.href !== $location.absUrl());
-
-    // if not authenticated or currently using view, see if there's
-    // a route for the location (still using view) and if it requires a session
-    if(!authenticated || usingView) {
-      for(var i = 0; i < routeRegexes.length; ++i) {
-        var entry = routeRegexes[i];
-        if(entry.regex.test($location.path())) {
-          // already using view and location is another route, so reload
-          // is not necessary
-          if(usingView) {
-            mustReload = false;
-            if(authenticated) {
-              break;
-            }
-          }
-          // no auth and session required, redirect to login
-          if(!authenticated && entry.route.session === 'required') {
-            $window.location.href = '/session/login';
-            if(event) {
-              event.preventDefault();
-            } else {
-              throw new Error('Session not found.');
-            }
-            return;
-          }
-        }
-      }
-    }
-
-    if(mustReload) {
+    // we must reload if we're not staying in the route system
+    var reload = !(onRoute && util.getRouteFromPath($route, $location.path()));
+    if(reload) {
       $window.location.href = $location.absUrl();
       if(event) {
         event.preventDefault();
       } else {
-        throw new Error('Switching route mode, reload required.');
+        throw new Error('Location change is not inter-route; reload required.');
       }
       return;
     }
