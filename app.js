@@ -121,7 +121,7 @@ module.config(function(
           error.message =
             'An error occurred while communicating with the server: ' +
             (response.statusText || ('HTTP ' + response.status));
-        } else if(error.type === 'bedrock.website.PermissionDenied') {
+        } else if(error.type === 'PermissionDenied') {
           // invalid session or missing session, show login modal
           $rootScope.$emit('showLoginModal');
         }
