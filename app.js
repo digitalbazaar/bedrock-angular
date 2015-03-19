@@ -52,7 +52,7 @@ angular.module('bedrock.config', []).value('config', {data: window.data});
 
 // TODO: events should be an optional dependency to allow loading via
 // other mechanisms
-events.on('bedrock.requirejs.ready', function() {
+events.on('bedrock-requirejs.ready', function() {
   api.init();
   api.start();
 });
