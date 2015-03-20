@@ -25,7 +25,6 @@ define([
   './demo-warning-directive',
   'angular-animate',
   'angular-bootstrap',
-  'angular-file-upload',
   'angular-route',
   'angular-sanitize',
   'es6-promise',
@@ -83,9 +82,10 @@ return api;
 
 function init() {
 
-// declare main module; depend core dependencies and all other loaded modules
-var deps = ['angularFileUpload', 'multi-transclude',
-  'ngAnimate', 'ngRoute', 'ngSanitize', 'ui.bootstrap'];
+// TODO: remove angular file upload as part of core?
+// declare main module; use core dependencies and all other loaded modules
+var deps = [
+  'multi-transclude', 'ngAnimate', 'ngRoute', 'ngSanitize', 'ui.bootstrap'];
 deps = deps.concat(Object.keys(angular._bedrock.modules));
 var module = angular.module('bedrock', deps);
 
