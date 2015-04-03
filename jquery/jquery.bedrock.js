@@ -7,7 +7,11 @@
  * @author David I. Lehn
  */
 // NOTE: This file can be removed when jquery-migrate support is removed.
-;(function(window, document, jQuery) {
-  // avoid jquery-migrate traces
-  jQuery.migrateTrace = false;
-}(this, document, jQuery));
+define(['jquery'], function(jQuery) {
+ 
+'use strict';
+
+// avoid jquery-migrate traces
+jQuery.migrateTrace = false;
+
+});
