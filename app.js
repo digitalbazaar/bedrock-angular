@@ -228,6 +228,9 @@ module.run(function(
     'application/ld+json, application/json, text/plain, */*';
   $http.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
+  // expose requirejs
+  $rootScope.requirejs = requirejs;
+
   // set site and page titles
   $rootScope.siteTitle = $window.data.siteTitle;
   $rootScope.pageTitle = $window.data.pageTitle;
