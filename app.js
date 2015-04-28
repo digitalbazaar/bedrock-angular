@@ -132,11 +132,15 @@ module.config(function(
 
   /* @ngInject */
   $provide.decorator('$templateRequest', function($delegate, config) {
-    // get base URL for modules
+    // get base URL for modules and override list
     var baseUrl = requirejs.toUrl('bedrock-angular');
     baseUrl = baseUrl.substr(0, baseUrl.indexOf('bedrock-angular'));
     var overrides = config.data.angular.templates.overrides;
-    return function(tpl) {
+
+    // replace $templateRequest
+    handleRequestFn.totalPendingRequests = $delegate.totalPendingRequests;
+    return handleRequestFn;
+    function handleRequestFn(tpl) {
       var relativeUrl = tpl;
       if(tpl.indexOf(baseUrl) === 0) {
         relativeUrl = tpl.substr(baseUrl.length);
@@ -145,8 +149,12 @@ module.config(function(
         tpl = baseUrl + overrides[relativeUrl];
       }
       arguments[0] = tpl;
-      return $delegate.apply($delegate, arguments);
-    };
+      var promise = $delegate.apply($delegate, arguments).finally(function() {
+        handleRequestFn.totalPendingRequests = $delegate.totalPendingRequests;
+      });
+      handleRequestFn.totalPendingRequests = $delegate.totalPendingRequests;
+      return promise;
+    }
   });
 });
 

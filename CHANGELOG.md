@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+### Fixed
+- Ensure `totalPendingRequests` is set on `$templateRequest` decorator.
+
 ## [1.0.0] - 2015-04-08
 
 ### Added
