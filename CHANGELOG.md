@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+## [1.1.0] - 2015-07-13
+
+### Added
+- Add `br-selected` and `br-selectable` selection utility CSS classes.
+
 ## [1.0.1] - 2015-05-07
 
 ### Fixed
@@ -23,6 +28,7 @@
 
 - See git history for changes.
 
-[Unreleased]: https://github.com/digitalbazaar/bedrock-angular/compare/1.0.1...HEAD
+[Unreleased]: https://github.com/digitalbazaar/bedrock-angular/compare/1.1.0...HEAD
+[1.1.0]: https://github.com/digitalbazaar/bedrock-angular/compare/1.0.1...1.1.0
 [1.0.1]: https://github.com/digitalbazaar/bedrock-angular/compare/1.0.0...1.0.1
 [1.0.0]: https://github.com/digitalbazaar/bedrock-angular/compare/0.1.0...1.0.0
