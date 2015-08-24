@@ -34,7 +34,8 @@
 
 - See git history for changes.
 
-[Unreleased]: https://github.com/digitalbazaar/bedrock-angular/compare/1.1.0...HEAD
+[Unreleased]: https://github.com/digitalbazaar/bedrock-angular/compare/1.2.0...HEAD
+[1.2.0]: https://github.com/digitalbazaar/bedrock-angular/compare/1.1.0...1.2.0
 [1.1.0]: https://github.com/digitalbazaar/bedrock-angular/compare/1.0.1...1.1.0
 [1.0.1]: https://github.com/digitalbazaar/bedrock-angular/compare/1.0.0...1.0.1
 [1.0.0]: https://github.com/digitalbazaar/bedrock-angular/compare/0.1.0...1.0.0
