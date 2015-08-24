@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [1.2.0] - 2015-08-24
+
+### Changed
+- Clear `noRoute` configuration when an angular route is detected; allows
+  angular routes to be added w/o requiring a paired backend express route.
+
 ## [1.1.0] - 2015-07-13
 
 ### Added
