@@ -257,6 +257,7 @@ module.run(function(
   // monitor whether or not an angular view is in use (current page is a route)
   $rootScope.$on('$viewContentLoaded', function() {
     onRoute = true;
+    config.data.noRoute = false;
   });
 
   // route info
