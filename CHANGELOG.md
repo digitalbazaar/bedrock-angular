@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [1.2.1] - 2015-09-11
+
+### Changed
+- Handle route detection on frontend (no longer requires backend `noRoute`
+  configuration).
+
 ## [1.2.0] - 2015-08-24
 
 ### Changed
@@ -34,7 +40,8 @@
 
 - See git history for changes.
 
-[Unreleased]: https://github.com/digitalbazaar/bedrock-angular/compare/1.2.0...HEAD
+[Unreleased]: https://github.com/digitalbazaar/bedrock-angular/compare/1.2.1...HEAD
+[1.2.1]: https://github.com/digitalbazaar/bedrock-angular/compare/1.2.0...1.2.1
 [1.2.0]: https://github.com/digitalbazaar/bedrock-angular/compare/1.1.0...1.2.0
 [1.1.0]: https://github.com/digitalbazaar/bedrock-angular/compare/1.0.1...1.1.0
 [1.0.1]: https://github.com/digitalbazaar/bedrock-angular/compare/1.0.0...1.0.1
