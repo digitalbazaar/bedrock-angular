@@ -245,8 +245,12 @@ module.run(function(
   $rootScope.productionMode = $window.data.productionMode;
   $rootScope.demoWarningUrl = $window.data.demoWarningUrl;
 
-  // tracks whether current page is using an angular view (page is a route)
-  var onRoute = false;
+  // route info
+  $rootScope.route = {
+    changing: false,
+    // tracks whether current page is using an angular view (page is a route)
+    on: false
+  };
 
   // do immediate initial location change prior to loading any page content
   // in case a redirect is necessary
@@ -256,14 +260,8 @@ module.run(function(
 
   // monitor whether or not an angular view is in use (current page is a route)
   $rootScope.$on('$viewContentLoaded', function() {
-    onRoute = true;
-    config.data.noRoute = false;
+    $rootScope.route.on = true;
   });
-
-  // route info
-  $rootScope.route = {
-    changing: false
-  };
 
   $rootScope.$on('$routeChangeStart', function(event, next, current) {
     $rootScope.route.changing = true;
@@ -325,7 +323,8 @@ module.run(function(
     }
 
     // we must reload if we're not staying in the route system
-    var reload = !(onRoute && util.getRouteFromPath($route, $location.path()));
+    var reload = !($rootScope.route.on &&
+      util.getRouteFromPath($route, $location.path()));
     if(reload) {
       $window.location.href = $location.absUrl();
       if(event) {
