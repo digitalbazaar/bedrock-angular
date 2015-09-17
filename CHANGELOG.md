@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+## [1.3.0] - 2015-09-17
+
+### Added
+- Expose `$location` via `rootScope.location`.
+
 ## [1.2.2] - 2015-09-14
 
 ### Changed
@@ -45,7 +50,8 @@
 
 - See git history for changes.
 
-[Unreleased]: https://github.com/digitalbazaar/bedrock-angular/compare/1.2.2...HEAD
+[Unreleased]: https://github.com/digitalbazaar/bedrock-angular/compare/1.3.0...HEAD
+[1.3.0]: https://github.com/digitalbazaar/bedrock-angular/compare/1.2.2...1.3.0
 [1.2.2]: https://github.com/digitalbazaar/bedrock-angular/compare/1.2.1...1.2.2
 [1.2.1]: https://github.com/digitalbazaar/bedrock-angular/compare/1.2.0...1.2.1
 [1.2.0]: https://github.com/digitalbazaar/bedrock-angular/compare/1.1.0...1.2.0
