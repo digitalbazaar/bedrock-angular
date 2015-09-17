@@ -251,6 +251,7 @@ module.run(function(
     // tracks whether current page is using an angular view (page is a route)
     on: false
   };
+  $rootScope.location = $location;
 
   // do immediate initial location change prior to loading any page content
   // in case a redirect is necessary
