@@ -221,12 +221,13 @@ module.run(function(
   /* Note: $route is injected above to trigger watching routes to ensure
     pages are loaded properly. */
 
-  // configure document loader to load security context locally
+  // TODO: move this into a new brJsonLdService
+  // configure document loader to load contexts locally
   jsonld.useDocumentLoader('xhr', {secure: true});
   var documentLoader = jsonld.documentLoader;
   jsonld.documentLoader = function(url) {
-    if(url === 'https://w3id.org/security/v1') {
-      url = config.data.baseUri + '/contexts/security-v1.jsonld';
+    if(url in config.data.contextMap) {
+      url = config.data.contextMap[url];
     }
     return documentLoader(url);
   };
