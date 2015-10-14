@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+## [1.4.0] - 2015-10-14
+
+### Changed
+- Use `config.data.contextMap` in json-ld document loader.
+
 ## [1.3.0] - 2015-09-17
 
 ### Added
@@ -50,7 +55,8 @@
 
 - See git history for changes.
 
-[Unreleased]: https://github.com/digitalbazaar/bedrock-angular/compare/1.3.0...HEAD
+[Unreleased]: https://github.com/digitalbazaar/bedrock-angular/compare/1.4.0...HEAD
+[1.4.0]: https://github.com/digitalbazaar/bedrock-angular/compare/1.3.0...1.4.0
 [1.3.0]: https://github.com/digitalbazaar/bedrock-angular/compare/1.2.2...1.3.0
 [1.2.2]: https://github.com/digitalbazaar/bedrock-angular/compare/1.2.1...1.2.2
 [1.2.1]: https://github.com/digitalbazaar/bedrock-angular/compare/1.2.0...1.2.1
