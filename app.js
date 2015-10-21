@@ -75,7 +75,9 @@ api.start = function() {
   // that application has bootstrapped (use strictDi when minified)
   var root = angular.element('html');
   angular.bootstrap(root, ['bedrock'], {strictDi: window.data.minify});
-  root.attr('ng-app', 'bedrock');
+  angular.element(document).ready(function() {
+    root.attr('ng-app', 'bedrock');
+  });
 };
 
 return api;
