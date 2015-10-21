@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+## [1.4.1] - 2015-10-21
+
+### Fixed
+- Set `ng-app` only after document is ready to avoid double-bootstrap bug.
+
 ## [1.4.0] - 2015-10-14
 
 ### Changed
@@ -55,7 +60,8 @@
 
 - See git history for changes.
 
-[Unreleased]: https://github.com/digitalbazaar/bedrock-angular/compare/1.4.0...HEAD
+[Unreleased]: https://github.com/digitalbazaar/bedrock-angular/compare/1.4.1...HEAD
+[1.4.1]: https://github.com/digitalbazaar/bedrock-angular/compare/1.4.0...1.4.1
 [1.4.0]: https://github.com/digitalbazaar/bedrock-angular/compare/1.3.0...1.4.0
 [1.3.0]: https://github.com/digitalbazaar/bedrock-angular/compare/1.2.2...1.3.0
 [1.2.2]: https://github.com/digitalbazaar/bedrock-angular/compare/1.2.1...1.2.2
