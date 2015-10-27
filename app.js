@@ -158,6 +158,12 @@ module.config(function(
       return promise;
     }
   });
+
+  $provide.decorator('$rootScope', function($delegate) {
+    $delegate.app = $delegate.app || {};
+    $delegate.app.services = $delegate.app.services || {};
+    return $delegate;
+  });
 });
 
 // TODO: `util` seems like it should be a service, why isn't it?
