@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+## [1.4.3] - 2015-10-27
+
+### Changed
+- Update `jsonld` dependency.
+
 ## [1.4.2] - 2015-10-26
 
 ### Changed
@@ -65,7 +70,8 @@
 
 - See git history for changes.
 
-[Unreleased]: https://github.com/digitalbazaar/bedrock-angular/compare/1.4.2...HEAD
+[Unreleased]: https://github.com/digitalbazaar/bedrock-angular/compare/1.4.3...HEAD
+[1.4.3]: https://github.com/digitalbazaar/bedrock-angular/compare/1.4.2...1.4.3
 [1.4.2]: https://github.com/digitalbazaar/bedrock-angular/compare/1.4.1...1.4.2
 [1.4.1]: https://github.com/digitalbazaar/bedrock-angular/compare/1.4.0...1.4.1
 [1.4.0]: https://github.com/digitalbazaar/bedrock-angular/compare/1.3.0...1.4.0
