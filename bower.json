@@ -1,6 +1,6 @@
 {
   "name": "bedrock-angular",
-  "version": "1.4.4-dev",
+  "version": "1.4.4",
   "main": ["./app.js", "./less/app.less"],
   "moduleType": ["amd"],
   "ignore": [],

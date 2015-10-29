@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+## [1.4.4] - 2015-10-29
+
+### Fixed
+- Do not overwrite $rootScope.app.
+
 ## [1.4.3] - 2015-10-27
 
 ### Changed
@@ -70,7 +75,8 @@
 
 - See git history for changes.
 
-[Unreleased]: https://github.com/digitalbazaar/bedrock-angular/compare/1.4.3...HEAD
+[Unreleased]: https://github.com/digitalbazaar/bedrock-angular/compare/1.4.4...HEAD
+[1.4.4]: https://github.com/digitalbazaar/bedrock-angular/compare/1.4.3...1.4.4
 [1.4.3]: https://github.com/digitalbazaar/bedrock-angular/compare/1.4.2...1.4.3
 [1.4.2]: https://github.com/digitalbazaar/bedrock-angular/compare/1.4.1...1.4.2
 [1.4.1]: https://github.com/digitalbazaar/bedrock-angular/compare/1.4.0...1.4.1
