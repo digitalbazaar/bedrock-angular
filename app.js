@@ -300,12 +300,9 @@ module.run(function(
   });
 
   // access to app core (utility functions, services, etc.)
-  $rootScope.app = {
-    config: config,
-    jsonld: util.jsonld,
-    services: {},
-    util: util
-  };
+  $rootScope.app.config = config;
+  $rootScope.app.jsonld = util.jsonld;
+  $rootScope.app.util = util;
 
   function locationChangeStart(event) {
     /* Handle switching between single-page app routes and server-side
