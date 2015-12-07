@@ -2,6 +2,15 @@
 
 ## [Unreleased]
 
+## [1.5.0] - 2015-12-06
+
+### Added
+- Add option to disable autostart (angular bootstrapping) of application. This
+  allows test frameworks to delay bootstrapping if necessary.
+
+### Fixed
+- Ensure `init` is always called when `start` is executed.
+
 ## [1.4.4] - 2015-10-29
 
 ### Fixed
@@ -75,7 +84,8 @@
 
 - See git history for changes.
 
-[Unreleased]: https://github.com/digitalbazaar/bedrock-angular/compare/1.4.4...HEAD
+[Unreleased]: https://github.com/digitalbazaar/bedrock-angular/compare/1.5.0...HEAD
+[1.5.0]: https://github.com/digitalbazaar/bedrock-angular/compare/1.4.4...1.5.0
 [1.4.4]: https://github.com/digitalbazaar/bedrock-angular/compare/1.4.3...1.4.4
 [1.4.3]: https://github.com/digitalbazaar/bedrock-angular/compare/1.4.2...1.4.3
 [1.4.2]: https://github.com/digitalbazaar/bedrock-angular/compare/1.4.1...1.4.2
