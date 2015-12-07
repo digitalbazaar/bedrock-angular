@@ -52,8 +52,9 @@ angular.module('bedrock.config', []).value('config', {data: window.data});
 // TODO: events should be an optional dependency to allow loading via
 // other mechanisms
 events.on('bedrock-requirejs.ready', function() {
-  api.init();
-  api.start();
+  if(api.config.autostart) {
+    api.start();
+  }
 });
 
 // module API to be exported
@@ -71,6 +72,7 @@ api.init = init;
  * Starts the main angular application by bootstrapping angular.
  */
 api.start = function() {
+  api.init();
   // bootstrap and set ng-app to indicate to test runner/other external apps
   // that application has bootstrapped (use strictDi when minified)
   var root = angular.element('html');
@@ -80,9 +82,23 @@ api.start = function() {
   });
 };
 
+// bedrock-angular local configuration
+api.config = {
+  // automatically start on load
+  autostart: true
+};
+
+var _init = false;
+
 return api;
 
 function init() {
+
+if(_init) {
+  return true;
+}
+
+_init = true;
 
 // TODO: remove angular file upload as part of core?
 // declare main module; use core dependencies and all other loaded modules
