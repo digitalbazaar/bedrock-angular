@@ -29,7 +29,9 @@ bower install bedrock-angular
 
 [Bedrock][] is a foundation onwhich to build web applications. It uses a
 modular design to help keep code well-organized and to allow a healthy
-ecosystem to grow without hindrance.
+ecosystem to grow without hindrance. It is also designed to make it possible
+to provide most of the generic, core infrastructure your project needs
+via simple installation, with zero or minimal configuration.
 
 [Bedrock][] web applications are typically built by installing a backend
 [npm][] module, [bedrock-views][], and a companion frontend [bower][] package,
@@ -60,8 +62,8 @@ packages or manually describe directories as if they were [bower][] packages.
 
 ### Serving components
 
-First need to learn how [bedrock][] makes components available to the browser.
-When components are installed via [bower][] packages, [bedrock][] will
+First we need to learn how [bedrock][] makes components available to the
+browser. When components are installed via [bower][] packages, [bedrock][] will
 automatically parse their `bower.json` files and make them available to the
 browser.
 
