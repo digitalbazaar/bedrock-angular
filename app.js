@@ -1,7 +1,7 @@
 /*!
  * Main Bedrock Application module.
  *
- * Copyright (c) 2012-2015 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2012-2016 Digital Bazaar, Inc. All rights reserved.
  *
  * @author Dave Longley
  */
@@ -30,7 +30,7 @@ define([
   'es6-promise',
   'jquery',
   'ng-multi-transclude',
-  'underscore'
+  'lodash'
 ], function(angular, jsonld, events, demoWarningDirective) {
 
 'use strict';
