@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+## [2.0.0] - 2016-4-09
+
+### Changed
+- **BREAKING**: Update to angular 1.5.
+
 ## [1.5.1] - 2016-3-17
 
 ### Changed
@@ -90,7 +95,8 @@
 
 - See git history for changes.
 
-[Unreleased]: https://github.com/digitalbazaar/bedrock-angular/compare/1.5.1...HEAD
+[Unreleased]: https://github.com/digitalbazaar/bedrock-angular/compare/2.0.0...HEAD
+[2.0.0]: https://github.com/digitalbazaar/bedrock-angular/compare/1.5.1...2.0.0
 [1.5.1]: https://github.com/digitalbazaar/bedrock-angular/compare/1.5.0...1.5.1
 [1.5.0]: https://github.com/digitalbazaar/bedrock-angular/compare/1.4.4...1.5.0
 [1.4.4]: https://github.com/digitalbazaar/bedrock-angular/compare/1.4.3...1.4.4
