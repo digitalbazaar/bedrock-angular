@@ -7,7 +7,7 @@ routing, multi-transclusion support, and [UI Bootstrap][] support. It can
 be extended using other angular modules, in most cases, by simply installing
 them via [bower][].
 
-[Click here to read about style guidelines and how to write AngularJS modules for the bedrock framework](See [bedrock-angular](https://github.com/digitalbazaar/bedrock-angular/blob/master/CONTRIBUTING.md).
+[Click here to read about style guidelines and how to write AngularJS modules for the bedrock framework](https://github.com/digitalbazaar/bedrock-angular/blob/master/CONTRIBUTING.md).
 
 [Click here to learn how to write a bedrock-angular "pseudo bower" package](https://github.com/digitalbazaar/bedrock-examples/blob/master/angular-basic).
 
