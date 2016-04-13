@@ -85,10 +85,12 @@ like this:
 | | bower.json:                    | |
 | | - defines the name of the      | |
 | |   package                      | |
+| | - defines the package type     | |
+| |   as "amd"                     | |
 | | - defines main JavaScript file | |
 | |   for the package              | |
-| | - the package name and main    | |
-| |   file are used by             | |
+| | - the package name, type, and  | |
+| |   main file are used by        | |
 | |   bedrock-requirejs to         | |
 | |   auto-configure the package   | |
 | |   so it can load when the      | |
