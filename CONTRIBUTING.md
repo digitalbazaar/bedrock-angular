@@ -78,9 +78,9 @@ A bower component that depends on bedrock-angular is typically organized
 like this:
 
 ```
-|-----------Bower Component----------|
++-----------Bower Component----------+
 |                                    |
-| |-------------MANIFEST-----------| |
+| +-------------MANIFEST-----------+ |
 | |                                | |
 | | bower.json:                    | |
 | | - defines the name of the      | |
@@ -93,11 +93,11 @@ like this:
 | |   auto-configure the package   | |
 | |   so it can load when the      | |
 | |   the browser requests it      | |
-| |--------------------------------| |
+| +--------------------------------+ |
 |                                    |
-| |--------AngularJS Module--------| |
+| +--------AngularJS Module--------+ |
 | |                                | |
-| | |---------AMD MODULE---------| | |
+| | +---------AMD MODULE---------+ | |
 | | |                            | | |
 | | | main.js:                   | | |
 | | | - provides AngularJS       | | |
@@ -106,9 +106,9 @@ like this:
 | | |   like foo-component.js    | | |
 | | |   and calls their register | | |
 | | |   functions                | | |
-| | |----------------------------| | |
+| | +----------------------------+ | |
 | |                                | |
-| | |---------AMD MODULE---------| | |
+| | +---------AMD MODULE---------+ | |
 | | |                            | | |
 | | | foo-component.js:          | | |
 | | | - defines AngularJS        | | |
@@ -119,13 +119,13 @@ like this:
 | | |   module instance so       | | |
 | | |   the component can        | | |
 | | |   register itself with it  | | |
-| | |----------------------------| | |
+| | +----------------------------+ | |
 | |                                | |
 | |              ...               | |
 | |                                | |
-| |--------------------------------| |
+| +--------------------------------+ |
 |                                    |
-|------------------------------------|
++------------------------------------+
 ```
 
 ### Loading Modules
