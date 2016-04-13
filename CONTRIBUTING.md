@@ -262,6 +262,10 @@ All files use lowercase and hyphens as a word delimiter. Controllers,
 services, and directives should be prefixed and use camelCase. Filters
 are not prefixed and use camelCase.
 
+Main file (defines AngularJS module):
+
+* File: main.js
+
 Controllers:
 
 * Name: prefixFooBarController (camelCase)
