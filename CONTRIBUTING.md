@@ -258,7 +258,7 @@ return register;
 
 The `bower.json` manifest file should look like this:
 
-```
+```json
 {
   "name": "my-bower-package-name",
   "version": "1.0.0",
