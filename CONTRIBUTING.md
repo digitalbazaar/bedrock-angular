@@ -256,6 +256,57 @@ return register;
 });
 ```
 
+An example filter would look like this:
+
+```js
+define([], function() {
+
+'use strict';
+
+function register(module) {
+  module.filter('fooBar', factory);
+}
+
+/* @ngInject */
+function factory() {
+  return function(input, param) {
+    // ...
+    return result;
+  };
+}
+
+return register;
+
+});
+```
+
+An example service would look like this:
+
+```js
+define([], function() {
+
+'use strict';
+
+function register(module) {
+  module.service('prefixFooBarService', factory);
+}
+
+/* @ngInject */
+function factory() {
+  var service = {};
+
+  service.foo = function() {
+    // ...
+  };
+
+  return service;
+}
+
+return register;
+
+});
+```
+
 The `bower.json` manifest file should look like this:
 
 ```json
