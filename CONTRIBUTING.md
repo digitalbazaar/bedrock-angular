@@ -227,14 +227,26 @@ define([], function() {
 function register(module) {
   module.component('prefixFooBar', {
     bindings: {
-      title: '@?prefixTitle'
+      title: '@?prefixTitle',
+      input: '<prefixInput',
+      onEvent: '&prefixOnEvent'
     },
+    controller: Ctrl,
     transclude: {
       'prefix-foo-bar-header': '?prefixFooBarHeader',
       'prefix-foo-bar-footer': '?prefixFooBarFooter'
     },
     templateUrl: requirejs.toUrl('my-bower-package-name/foo-bar.html')
   });
+}
+
+/* @ngInject */
+function Ctrl() {
+  var self = this;
+
+  self.doIt = function() {
+    self.onEvent({item: self.input.id});
+  };
 }
 
 return register;
