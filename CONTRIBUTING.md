@@ -32,7 +32,7 @@ The closure has been reworked to avoid the reference.
 Addresses #124.
 ```
 
-## AngularJS
+## Writing AngularJS modules based on bedrock-angular
 
 ### Module Terminology
 
