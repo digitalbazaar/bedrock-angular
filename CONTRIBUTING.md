@@ -281,7 +281,7 @@ Filters:
 
 * Name: fooBar (camelCase)
 * File: foo-bar-filter.js
-*
+
 Services:
 
 * Name: prefixFooBarService (CamelCase)
