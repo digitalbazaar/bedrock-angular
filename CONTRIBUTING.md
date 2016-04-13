@@ -347,7 +347,7 @@ Best practices:
     bindToController: true
   }
 ```
-* Use the annotation /* @ngInject */ before dependency-injected functions
+* Use the annotation `/* @ngInject */` before dependency-injected functions
   to ensure the build tools can appropriately deal with minification.
 
 ### Code Style
@@ -356,7 +356,7 @@ Regarding code style, please follow the [Angular Style Guide](https://github.com
 
 ## Testing
 
-See: [bedrock-protractor](https://github.com/digitalbazaar/bedrock-protractor))
+See: [bedrock-protractor](https://github.com/digitalbazaar/bedrock-protractor)
 
 
 [bedrock-requirejs]: https://github.com/digitalbazaar/bedrock-requirejs
