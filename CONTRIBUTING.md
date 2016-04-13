@@ -180,10 +180,10 @@ Here is an example of the directory layout for a module:
     |-- bower.json
     |-- foo-bar-controller.js
     |-- foo-bar-component.js
+    |-- foo-bar-component.html
     |-- foo-bar-directive.js
     |-- foo-bar-filter.js
     |-- foo-bar-service.js
-    |-- foo-bar.html
     `-- main.js
 
 Each JavaScript file will contain an AMD module and uses snake-case. The file
@@ -236,7 +236,7 @@ function register(module) {
       'prefix-foo-bar-header': '?prefixFooBarHeader',
       'prefix-foo-bar-footer': '?prefixFooBarFooter'
     },
-    templateUrl: requirejs.toUrl('my-bower-package-name/foo-bar.html')
+    templateUrl: requirejs.toUrl('my-bower-package-name/foo-bar-component.html')
   });
 }
 
@@ -287,7 +287,7 @@ Services:
 
 Templates:
 
-* Name: foo-bar.html
+* Name: foo-bar-component.html
 
 Modals (if using bedrock-angular-modal):
 
