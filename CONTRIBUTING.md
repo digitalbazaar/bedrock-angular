@@ -256,6 +256,20 @@ return register;
 });
 ```
 
+The `bower.json` manifest file should look like this:
+
+```
+{
+  "name": "my-bower-package-name",
+  "version": "1.0.0",
+  "main": ["./main.js", "./some-less-definitions.less"],
+  "moduleType": ["amd"],
+  "dependencies": {
+    "bedrock-angular": "^2.0.0"
+  }
+}
+```
+
 Naming conventions:
 
 All files use lowercase and hyphens as a word delimiter. Controllers,
