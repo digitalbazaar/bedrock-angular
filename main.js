@@ -22,7 +22,6 @@ define([
   'angular',
   'jsonld',
   'requirejs/events',
-  './demo-warning-directive',
   'angular-animate',
   'angular-bootstrap',
   'angular-route',
@@ -30,8 +29,13 @@ define([
   'es6-promise',
   'jquery',
   'ng-multi-transclude',
-  'lodash'
-], function(angular, jsonld, events, demoWarningDirective) {
+  './app-component',
+  './demo-warning-component'
+], function(
+  angular, jsonld, events,
+  ngAnimate, ngBootstrap, ngRoute, ngSanitize,
+  es6Promise, jQuery, ngMultiTransclude,
+  brApp, brDemoWarning) {
 
 'use strict';
 
@@ -100,14 +104,15 @@ if(_init) {
 
 _init = true;
 
-// TODO: remove angular file upload as part of core?
 // declare main module; use core dependencies and all other loaded modules
 var deps = [
   'multi-transclude', 'ngAnimate', 'ngRoute', 'ngSanitize', 'ui.bootstrap'];
 deps = deps.concat(Object.keys(angular._bedrock.modules));
 var module = angular.module('bedrock', deps);
 
-module.directive(demoWarningDirective);
+// register core components
+brApp(module);
+brDemoWarning(module);
 
 /* @ngInject */
 module.config(function(
@@ -238,6 +243,8 @@ util.getRouteFromPath = function($route, path) {
   }
   return null;
 };
+
+// TODO: move much (if not all) module.run code to app-component's controller?
 
 /* @ngInject */
 module.run(function(
