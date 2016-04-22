@@ -256,6 +256,27 @@ return register;
 });
 ```
 
+An example controller would look like this:
+
+```js
+define([], function() {
+
+'use strict';
+
+function register(module) {
+  module.controller('prefixFooBarController', factory);
+}
+
+/* @ngInject */
+function factory() {
+  // ...
+}
+
+return register;
+
+});
+```
+
 An example filter would look like this:
 
 ```js
