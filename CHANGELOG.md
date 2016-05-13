@@ -2,7 +2,13 @@
 
 ## [Unreleased]
 
-## [2.1.0] - 2016-4-15
+## [2.2.0] - 2016-05-13
+
+### Added
+- New `resolvePackageUrl` filter that can be used in HTML templates instead
+  of the now deprecated `$root.requirejs.toUrl(...)`.
+
+## [2.1.0] - 2016-04-15
 
 ### Added
 - New app component that encompasses the entire main body
@@ -11,12 +17,12 @@
   bedrock-views and allows customization to happen more
   readily at the angular layer.
 
-## [2.0.0] - 2016-4-09
+## [2.0.0] - 2016-04-09
 
 ### Changed
 - **BREAKING**: Update to angular 1.5.
 
-## [1.5.1] - 2016-3-17
+## [1.5.1] - 2016-03-17
 
 ### Changed
 - Update dependencies.
@@ -104,7 +110,8 @@
 
 - See git history for changes.
 
-[Unreleased]: https://github.com/digitalbazaar/bedrock-angular/compare/2.1.0...HEAD
+[Unreleased]: https://github.com/digitalbazaar/bedrock-angular/compare/2.2.0...HEAD
+[2.2.0]: https://github.com/digitalbazaar/bedrock-angular/compare/2.1.0...2.2.0
 [2.1.0]: https://github.com/digitalbazaar/bedrock-angular/compare/2.0.0...2.1.0
 [2.0.0]: https://github.com/digitalbazaar/bedrock-angular/compare/1.5.1...2.0.0
 [1.5.1]: https://github.com/digitalbazaar/bedrock-angular/compare/1.5.0...1.5.1
