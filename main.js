@@ -30,14 +30,14 @@ define([
   'jquery',
   'ng-multi-transclude',
   './app-component',
-  './demo-warning-component'
-], function(
-  angular, jsonld, events,
-  ngAnimate, ngBootstrap, ngRoute, ngSanitize,
-  es6Promise, jQuery, ngMultiTransclude,
-  brApp, brDemoWarning) {
+  './demo-warning-component',
+  './resolve-package-url-filter'
+], function(angular, jsonld, events) {
 
 'use strict';
+
+// dependencies starting with './' that need to be registered on `init`
+var localDeps = Array.prototype.slice.call(arguments, arguments.length - 3);
 
 if(!angular._bedrock) {
   // rewrite angular to keep track of declared modules
@@ -110,9 +110,10 @@ var deps = [
 deps = deps.concat(Object.keys(angular._bedrock.modules));
 var module = angular.module('bedrock', deps);
 
-// register core components
-brApp(module);
-brDemoWarning(module);
+// register local components
+localDeps.forEach(function(register) {
+  register(module);
+});
 
 /* @ngInject */
 module.config(function(
@@ -154,9 +155,9 @@ module.config(function(
   });
 
   /* @ngInject */
-  $provide.decorator('$templateRequest', function($delegate, config) {
+  $provide.decorator('$templateRequest', function($delegate, $filter, config) {
     // get base URL for modules and override list
-    var baseUrl = requirejs.toUrl('bedrock-angular');
+    var baseUrl = $filter('resolvePackageUrl')('bedrock-angular');
     baseUrl = baseUrl.substr(0, baseUrl.indexOf('bedrock-angular'));
     var overrides = config.data.angular.templates.overrides;
 
@@ -268,7 +269,8 @@ module.run(function(
     'application/ld+json, application/json, text/plain, */*';
   $http.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-  // expose requirejs
+  // TODO: deprecated, only really used for `$root.requirejs.toUrl` in
+  // templates which has been replaced by `resolvePackageUrl` filter
   $rootScope.requirejs = requirejs;
 
   // set site and page titles
