@@ -145,7 +145,7 @@ module.config(function(
           error = {};
         }
         if(error.type === undefined) {
-          error.type = 'website.Exception';
+          error.type = 'Error';
           error.message =
             'An error occurred while communicating with the server: ' +
             (response.statusText || ('HTTP ' + response.status));
