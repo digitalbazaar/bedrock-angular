@@ -2,6 +2,14 @@
 
 ## [Unreleased]
 
+## [2.2.1] - 2016-05-31
+
+### Fixed
+- Handle plain text error responses.
+
+### Changed
+- Update error type name from 'website.Exception' to just 'Error'.
+
 ## [2.2.0] - 2016-05-13
 
 ### Added
@@ -110,7 +118,8 @@
 
 - See git history for changes.
 
-[Unreleased]: https://github.com/digitalbazaar/bedrock-angular/compare/2.2.0...HEAD
+[Unreleased]: https://github.com/digitalbazaar/bedrock-angular/compare/2.2.1...HEAD
+[2.2.1]: https://github.com/digitalbazaar/bedrock-angular/compare/2.2.0...2.2.1
 [2.2.0]: https://github.com/digitalbazaar/bedrock-angular/compare/2.1.0...2.2.0
 [2.1.0]: https://github.com/digitalbazaar/bedrock-angular/compare/2.0.0...2.1.0
 [2.0.0]: https://github.com/digitalbazaar/bedrock-angular/compare/1.5.1...2.0.0
