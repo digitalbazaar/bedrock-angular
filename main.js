@@ -140,6 +140,10 @@ module.config(function(
       },
       responseError: function(response) {
         var error = response.data || {};
+        // handle plain text error responses
+        if(typeof error === 'string') {
+          error = {};
+        }
         if(error.type === undefined) {
           error.type = 'website.Exception';
           error.message =
