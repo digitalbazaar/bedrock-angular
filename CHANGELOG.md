@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+### Changed
+- Update angular to ~1.5.6.
+
 ## [2.2.1] - 2016-05-31
 
 ### Fixed
