@@ -14,6 +14,7 @@
 
 ### Changed
 - Update angular to ~1.5.6.
+- Disable debug data. See https://docs.angularjs.org/guide/production.
 
 ## 2.2.1 - 2016-05-31
 

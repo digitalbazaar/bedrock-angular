@@ -117,9 +117,14 @@ localDeps.forEach(function(register) {
 
 /* @ngInject */
 module.config(function(
-  $httpProvider, $locationProvider, $provide, $routeProvider) {
+  $compileProvider, $httpProvider, $locationProvider, $provide,
+  $routeProvider) {
   $locationProvider.html5Mode(true);
   $locationProvider.hashPrefix('!');
+
+  // Disable debug data
+  // See: https://docs.angularjs.org/guide/production
+  $compileProvider.debugInfoEnabled(false);
 
   // add non-route
   $routeProvider.otherwise({none: true});
