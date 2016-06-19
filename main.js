@@ -128,16 +128,8 @@ module.config(function(
 
   // normalize errors, deal w/auth redirection
   /* @ngInject */
-  $httpProvider.interceptors.push(function($rootScope, $q, $timeout) {
+  $httpProvider.interceptors.push(function($rootScope, $q) {
     return {
-      request: function(config) {
-        if('delay' in config) {
-          return $timeout(function() {
-            return config;
-          }, config.delay);
-        }
-        return config;
-      },
       responseError: function(response) {
         var error = response.data || {};
         // handle plain text error responses
@@ -185,10 +177,53 @@ module.config(function(
     }
   });
 
+  // FIXME: deprecate
+  /* @ngInject */
   $provide.decorator('$rootScope', function($delegate) {
     $delegate.app = $delegate.app || {};
     $delegate.app.services = $delegate.app.services || {};
     return $delegate;
+  });
+
+  /* @ngInject */
+  $provide.decorator('$http', function($delegate, $timeout) {
+    var _queue = {};
+    function $http(requestConfig) {
+      // apply delay and then remove it
+      if('delay' in requestConfig) {
+        return $timeout(function() {
+          requestConfig = angular.extend({}, requestConfig);
+          delete requestConfig.delay;
+          return $http(requestConfig);
+        }, requestConfig.delay);
+      }
+
+      // allow queue if method is GET
+      if(requestConfig.queue && requestConfig.method === 'GET') {
+        // use global or specified queue
+        var queue = (requestConfig.queue === true ?
+          _queue : requestConfig.queue);
+        var url = requestConfig.url;
+        if(url in queue) {
+          return new Promise(function(resolve, reject) {
+            queue[url].then(resolve, reject);
+          });
+        }
+        var promise = queue[url] = $delegate.apply($delegate, arguments);
+        return promise.then(function(response) {
+          delete queue[url];
+          return response;
+        }).catch(function(err) {
+          delete queue[url];
+          throw err;
+        });
+      }
+
+      // normal operation
+      return $delegate.apply($delegate, arguments);
+    }
+    angular.extend($http, $delegate);
+    return $http;
   });
 });
 
