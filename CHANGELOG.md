@@ -1,5 +1,10 @@
 # bedrock-angular ChangeLog
 
+## 2.3.0 - 2016-06-18
+
+### Added
+- Add `queue` option for $http GET requests.
+
 ## 2.2.2 - 2016-06-17
 
 ### Changed
