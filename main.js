@@ -203,6 +203,7 @@ module.config(function(
         // use global or specified queue
         var queue = (requestConfig.queue === true ?
           _queue : requestConfig.queue);
+        // TODO: does not account for requestConfig.params, etc
         var url = requestConfig.url;
         if(url in queue) {
           return new Promise(function(resolve, reject) {
