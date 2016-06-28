@@ -1,5 +1,6 @@
 <div ng-show="!$ctrl.route.changing">
   <br-navbar></br-navbar>
+  <br-alerts br-fixed="true"></br-alerts>
 
   <div ng-if="$ctrl.config.userAgent.obsolete" class="alert alert-danger">
     Your browser ({{$ctrl.config.userAgent.family}}
