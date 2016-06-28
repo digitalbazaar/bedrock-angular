@@ -1,5 +1,8 @@
 # bedrock-angular ChangeLog
 
+### Changed
+- Do not require navbar to use alerts.
+
 ## 2.3.0 - 2016-06-18
 
 ### Added
