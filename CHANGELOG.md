@@ -1,5 +1,10 @@
 # bedrock-angular ChangeLog
 
+## 2.3.1 - 2016-06-29
+
+### Changed
+- Disable debug data. See https://docs.angularjs.org/guide/production.
+
 ## 2.3.1 - 2016-06-28
 
 ### Changed
@@ -14,7 +19,6 @@
 
 ### Changed
 - Update angular to ~1.5.6.
-- Disable debug data. See https://docs.angularjs.org/guide/production.
 
 ## 2.2.1 - 2016-05-31
 
