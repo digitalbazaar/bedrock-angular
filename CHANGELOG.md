@@ -1,5 +1,8 @@
 # bedrock-angular ChangeLog
 
+### Fixed
+- Use root scope for demo warning vars.
+
 ## 2.3.1 - 2016-06-29
 
 ### Changed
