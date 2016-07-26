@@ -8,7 +8,7 @@
 (function() {
 
 // if angular is globally defined, update early to track declared modules
-if(typeof angular !== 'undefined') {
+if(typeof angular !== 'undefined' && !angular._bedrock) {
   angular._bedrock = {modules: {}};
   angular._module = angular.module;
   angular.module = function(name) {
