@@ -1,6 +1,6 @@
 {
   "name": "bedrock-angular",
-  "version": "2.3.4-0",
+  "version": "2.3.4",
   "main": [
     "./main.js",
     "./less/app.less"
