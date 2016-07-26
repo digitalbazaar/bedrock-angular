@@ -51,7 +51,20 @@ if(!angular._bedrock) {
 }
 
 // main shared config
-angular.module('bedrock.config', []).value('config', {data: window.data});
+angular.module('bedrock.config', [])
+  .value('config', {data: window.data})
+  .run(function(config) {
+    // TODO: move this into a new brJsonLdService? needs to load early though
+    // configure default document loader to load contexts locally
+    jsonld.useDocumentLoader('xhr', {secure: true});
+    var documentLoader = jsonld.documentLoader;
+    jsonld.documentLoader = function(url) {
+      if(url in config.data.contextMap) {
+        url = config.data.contextMap[url];
+      }
+      return documentLoader(url);
+    };
+  });
 
 // TODO: events should be an optional dependency to allow loading via
 // other mechanisms
@@ -297,17 +310,6 @@ module.run(function(
   $http, $location, $rootScope, $route, $window, config, util) {
   /* Note: $route is injected above to trigger watching routes to ensure
     pages are loaded properly. */
-
-  // TODO: move this into a new brJsonLdService
-  // configure document loader to load contexts locally
-  jsonld.useDocumentLoader('xhr', {secure: true});
-  var documentLoader = jsonld.documentLoader;
-  jsonld.documentLoader = function(url) {
-    if(url in config.data.contextMap) {
-      url = config.data.contextMap[url];
-    }
-    return documentLoader(url);
-  };
 
   // default headers
   $http.defaults.headers.common.Accept =

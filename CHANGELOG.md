@@ -1,5 +1,9 @@
 # bedrock-angular ChangeLog
 
+### Fixed
+- Initialize jsonld document loader early (when `bedrock.config` loads).
+- Do not overwrite `_bedrock` on `angular`.
+
 ## 2.3.3 - 2016-07-24
 
 ### Fixed
