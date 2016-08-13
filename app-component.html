@@ -1,4 +1,4 @@
-<div ng-show="!$ctrl.route.changing">
+<div ng-if="$ctrl.isMain" ng-show="!$ctrl.route.changing">
   <br-navbar></br-navbar>
   <br-alerts br-fixed="true"></br-alerts>
 
@@ -41,5 +41,14 @@
       <hr/>
       <br-footer ng-if="$ctrl.config.footer.show"></br-footer>
     </div>
+  </div>
+</div>
+<div ng-if="!$ctrl.isMain">
+  <h2>Page Not Found</h2>
+
+  <div>
+    <p>Sorry, but the page you requested was not found.</p>
+    <p>If this problem persists, please contact
+    <a href="mailto:support@{{supportDomain}}">Customer Support</a>.</p>
   </div>
 </div>

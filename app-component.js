@@ -18,13 +18,27 @@ function register(module) {
 
 /* @ngInject */
 function Ctrl($location, $rootScope, config) {
-  this.config = config.data;
-  this.route = $rootScope.route;
-  this.path = $location.path();
+  var self = this;
 
-  if(this.config.googleAnalytics.enabled) {
+  self.config = config.data;
+  self.route = $rootScope.route;
+  self.path = $location.path();
+
+  // prevent recursion within main brApp
+  if(!$rootScope._brApp) {
+    $rootScope._brApp = true;
+    self.isMain = true;
+  } else {
+    self.isMain = false;
+    console.error(
+      'Could not load route "' + $location.path() + '" ' +
+      'using template "' + self.route.current.loadedTemplateUrl + '". ' +
+      'Template not found or includes a recursive "br-app" component.');
+  }
+
+  if(self.config.googleAnalytics.enabled) {
     var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', this.config.googleAnalytics.account]);
+    _gaq.push(['_setAccount', self.config.googleAnalytics.account]);
     _gaq.push(['_trackPageview']);
     (function() {
       var ga = document.createElement('script');

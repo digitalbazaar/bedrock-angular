@@ -195,7 +195,7 @@ module.config(function(
     }
   });
 
-  // FIXME: deprecate
+  // FIXME: deprecate, do not include service data in rootScope
   /* @ngInject */
   $provide.decorator('$rootScope', function($delegate) {
     $delegate.app = $delegate.app || {};

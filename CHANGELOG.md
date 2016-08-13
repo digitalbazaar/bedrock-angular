@@ -1,5 +1,8 @@
 # bedrock-angular ChangeLog
 
+### Fixed
+- Prevent br-app recursion when templates are not found.
+
 ## 2.3.4 - 2016-07-26
 
 ### Fixed
