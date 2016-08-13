@@ -160,8 +160,11 @@ module.config(function(
             'An error occurred while communicating with the server: ' +
             (response.statusText || ('HTTP ' + response.status));
         } else if(error.type === 'PermissionDenied') {
-          // invalid session or missing session, show login modal
-          $rootScope.$emit('showLoginModal');
+          // response triggered permission denied error
+          $rootScope.$emit('permissionDenied', {
+            response: response,
+            error: error
+          });
         }
         return $q.reject(error);
       }
