@@ -1,5 +1,8 @@
 # bedrock-angular ChangeLog
 
+### Added
+- Add `permissionDenied` event when HTTP requests are rejected.
+
 ## 2.3.5 - 2016-08-13
 
 ### Fixed
