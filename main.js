@@ -66,8 +66,6 @@ angular.module('bedrock.config', [])
     };
   });
 
-// TODO: events should be an optional dependency to allow loading via
-// other mechanisms
 events.on('bedrock-requirejs.ready', function() {
   if(api.config.autostart) {
     api.start();
@@ -107,12 +105,18 @@ api.config = {
 
 // prerender notification support
 var _prerenderResolve;
-var _prerenderPromise = new Promise(function(resolve) {
-  _prerenderResolve = resolve;
-});
+var _prerenderPromise;
 api.prerender = function() {
   return _prerenderPromise;
 };
+
+events.on('bedrock-requirejs.init', function() {
+  // initialize promise *after* `bedrock-requirejs.init` to ensure polyfills
+  // are ready
+  _prerenderPromise = new Promise(function(resolve) {
+    _prerenderResolve = resolve;
+  });
+});
 
 var _init = false;
 
