@@ -77,6 +77,11 @@ events.on('bedrock-requirejs.ready', function() {
 // module API to be exported
 var api = {};
 
+var _prerenderPromise;
+api.prerender = function() {
+  return _prerenderPromise;
+};
+
 /**
  * Initializes the main angular application; to be called after all other
  * angular modules have been declared. This approach currently requires all
@@ -209,7 +214,15 @@ module.config(function(
   /* @ngInject */
   $provide.decorator('$http', function($delegate, $timeout) {
     var _queue = {};
+    var _pendingRequests = 0;
+    var _prerenderReady;
+    var _resolvePrerenderPromise;
+    _prerenderPromise = new Promise(function(resolve) {
+      _resolvePrerenderPromise = resolve;
+    });
+    console.log('INITIALIZING DECORATOR');
     function $http(requestConfig) {
+      console.log('CCCCCCCCCC', requestConfig.url);
       // apply delay and then remove it
       if('delay' in requestConfig) {
         return $timeout(function() {
@@ -218,7 +231,7 @@ module.config(function(
           return $http(requestConfig);
         }, requestConfig.delay);
       }
-
+      var promise;
       // allow queue if method is GET
       if(requestConfig.queue && requestConfig.method === 'GET') {
         // use global or specified queue
@@ -227,22 +240,59 @@ module.config(function(
         // TODO: does not account for requestConfig.params, etc
         var url = requestConfig.url;
         if(url in queue) {
+          // _pendingRequests--;
           return new Promise(function(resolve, reject) {
             queue[url].then(resolve, reject);
           });
+        } else {
+          _pendingRequests++;
+          console.log('INCREMENTED PENDING REQUESTS', _pendingRequests);
         }
-        var promise = queue[url] = $delegate.apply($delegate, arguments);
-        return promise.then(function(response) {
+        promise = queue[url] = $delegate.apply($delegate, arguments);
+        promise.then(function(response) {
           delete queue[url];
           return response;
         }).catch(function(err) {
           delete queue[url];
           throw err;
         });
+      } else {
+        _pendingRequests++;
+        console.log('INCREMENTED PENDING REQUESTS', _pendingRequests);
+        // normal operation
+        promise = $delegate.apply($delegate, arguments);
       }
 
-      // normal operation
-      return $delegate.apply($delegate, arguments);
+      return promise.then(function(response) {
+        console.log('Request Complete', requestConfig.url);
+        _pendingRequests--;
+        _notifyIfPrerenderReady();
+        return response;
+      }).catch(function(err) {
+        _pendingRequests--;
+        _notifyIfPrerenderReady();
+        throw err;
+      });
+
+      function _notifyIfPrerenderReady() {
+        var _prerenderPromise = {
+          resolved: false
+        };
+        if(_pendingRequests === 0 && !_prerenderPromise.resolved) {
+          clearTimeout(_prerenderReady);
+          _prerenderReady = setTimeout(function() {
+            console.log('PRERENDER IS READY!');
+            _resolvePrerenderPromise();
+            // reinitialze the promise
+            if(typeof window.callPhantom === 'function') {
+              window.callPhantom();
+            }
+            _prerenderPromise = new Promise(function(resolve) {
+              _resolvePrerenderPromise = resolve;
+            });
+          }, 400);
+        }
+      }
     }
     angular.extend($http, $delegate);
     return $http;
