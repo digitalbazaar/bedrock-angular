@@ -77,11 +77,6 @@ events.on('bedrock-requirejs.ready', function() {
 // module API to be exported
 var api = {};
 
-var _prerenderPromise;
-api.prerender = function() {
-  return _prerenderPromise;
-};
-
 /**
  * Initializes the main angular application; to be called after all other
  * angular modules have been declared. This approach currently requires all
@@ -108,6 +103,15 @@ api.start = function() {
 api.config = {
   // automatically start on load
   autostart: true
+};
+
+// prerender notification support
+var _prerenderResolve;
+var _prerenderPromise = new Promise(function(resolve) {
+  _prerenderResolve = resolve;
+});
+api.prerender = function() {
+  return _prerenderPromise;
 };
 
 var _init = false;
@@ -216,10 +220,6 @@ module.config(function(
     var _queue = {};
     var _pendingRequests = 0;
     var _prerenderReady;
-    var _resolvePrerenderPromise;
-    _prerenderPromise = new Promise(function(resolve) {
-      _resolvePrerenderPromise = resolve;
-    });
     console.log('INITIALIZING DECORATOR');
     function $http(requestConfig) {
       console.log('CCCCCCCCCC', requestConfig.url);
@@ -275,22 +275,14 @@ module.config(function(
       });
 
       function _notifyIfPrerenderReady() {
-        var _prerenderPromise = {
-          resolved: false
-        };
-        if(_pendingRequests === 0 && !_prerenderPromise.resolved) {
+        if(_pendingRequests === 0 && _prerenderResolve) {
           clearTimeout(_prerenderReady);
           _prerenderReady = setTimeout(function() {
             console.log('PRERENDER IS READY!');
-            _resolvePrerenderPromise();
-            // reinitialze the promise
-            if(typeof window.callPhantom === 'function') {
-              window.callPhantom();
-            }
-            _prerenderPromise = new Promise(function(resolve) {
-              _resolvePrerenderPromise = resolve;
-            });
-          }, 400);
+            var tmp = _prerenderResolve;
+            _prerenderResolve = null;
+            tmp();
+          }, 400 /*TODO: config var?*/);
         }
       }
     }
