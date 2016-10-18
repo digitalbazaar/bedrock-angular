@@ -1,7 +1,10 @@
 # bedrock-angular ChangeLog
 
+## 2.4.0 - 2016-10-18
+
 ### Added
 - Add `permissionDenied` event when HTTP requests are rejected.
+- Support for prerendering pages.
 
 ## 2.3.5 - 2016-08-13
 
