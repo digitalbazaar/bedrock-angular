@@ -224,9 +224,7 @@ module.config(function(
     var _queue = {};
     var _pendingRequests = 0;
     var _prerenderReady;
-    console.log('INITIALIZING DECORATOR');
     function $http(requestConfig) {
-      console.log('CCCCCCCCCC', requestConfig.url);
       // apply delay and then remove it
       if('delay' in requestConfig) {
         return $timeout(function() {
@@ -250,7 +248,6 @@ module.config(function(
           });
         } else {
           _pendingRequests++;
-          console.log('INCREMENTED PENDING REQUESTS', _pendingRequests);
         }
         promise = queue[url] = $delegate.apply($delegate, arguments);
         promise.then(function(response) {
@@ -262,13 +259,11 @@ module.config(function(
         });
       } else {
         _pendingRequests++;
-        console.log('INCREMENTED PENDING REQUESTS', _pendingRequests);
         // normal operation
         promise = $delegate.apply($delegate, arguments);
       }
 
       return promise.then(function(response) {
-        console.log('Request Complete', requestConfig.url);
         _pendingRequests--;
         _notifyIfPrerenderReady();
         return response;
@@ -282,11 +277,10 @@ module.config(function(
         if(_pendingRequests === 0 && _prerenderResolve) {
           clearTimeout(_prerenderReady);
           _prerenderReady = setTimeout(function() {
-            console.log('PRERENDER IS READY!');
             var tmp = _prerenderResolve;
             _prerenderResolve = null;
             tmp();
-          }, 400 /*TODO: config var?*/);
+          }, 500 /* TODO: config var?*/);
         }
       }
     }
