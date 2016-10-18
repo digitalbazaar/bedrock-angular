@@ -103,36 +103,43 @@ api.config = {
   autostart: true
 };
 
-// prerender notification support
-var _prerenderResolve;
-var _prerenderPromise;
+// render notification support (useful for prerendering, etc.)
+var _renderResolve;
+var _renderPromise;
 var _pendingRequests = 0;
-var _prerenderReady;
-api.prerender = function() {
-  return _prerenderPromise;
+var _rendered;
+
+/**
+ * Returns a Promise that resolves once the page is considered fully rendered.
+ *
+ * This is useful for prerendering tools to call to determine if a page's
+ * contents are ready to be proxied to a crawler that lacks JS-support.
+ */
+api.render = function() {
+  return _renderPromise;
 };
 
 events.on('bedrock-requirejs.init', function() {
   // initialize promise *after* `bedrock-requirejs.init` to ensure polyfills
   // are ready
-  _prerenderPromise = new Promise(function(resolve) {
-    _prerenderResolve = resolve;
+  _renderPromise = new Promise(function(resolve) {
+    _renderResolve = resolve;
   });
-  _notifyIfPrerenderReady();
+  _notifyIfRendered();
 });
 
 var _init = false;
 
 return api;
 
-function _notifyIfPrerenderReady() {
-  if(_pendingRequests === 0 && _prerenderResolve) {
-    clearTimeout(_prerenderReady);
-    _prerenderReady = setTimeout(function() {
-      var tmp = _prerenderResolve;
-      _prerenderResolve = null;
+function _notifyIfRendered() {
+  if(_pendingRequests === 0 && _renderResolve) {
+    clearTimeout(_rendered);
+    _rendered = setTimeout(function() {
+      var tmp = _renderResolve;
+      _renderResolve = null;
       tmp();
-    }, window.data.prerenderTimeout);
+    }, window.data.renderTimeout);
   }
 }
 
@@ -279,11 +286,11 @@ module.config(function(
 
       return promise.then(function(response) {
         _pendingRequests--;
-        _notifyIfPrerenderReady();
+        _notifyIfRendered();
         return response;
       }).catch(function(err) {
         _pendingRequests--;
-        _notifyIfPrerenderReady();
+        _notifyIfRendered();
         throw err;
       });
     }
