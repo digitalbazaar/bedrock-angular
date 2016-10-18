@@ -132,7 +132,7 @@ function _notifyIfPrerenderReady() {
       var tmp = _prerenderResolve;
       _prerenderResolve = null;
       tmp();
-    }, 500 /* TODO: config var?*/);
+    }, window.data.prerenderTimeout);
   }
 }
 
