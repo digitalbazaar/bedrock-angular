@@ -237,15 +237,20 @@ module.config(function(
   $provide.decorator('$http', function($delegate, $timeout) {
     var _queue = {};
     function $http(requestConfig) {
+      _pendingRequests++;
+
       // apply delay and then remove it
       if('delay' in requestConfig) {
         return $timeout(function() {
           requestConfig = angular.extend({}, requestConfig);
           delete requestConfig.delay;
+          _pendingRequests--;
           return $http(requestConfig);
         }, requestConfig.delay);
       }
+
       var promise;
+
       // allow queue if method is GET
       if(requestConfig.queue && requestConfig.method === 'GET') {
         // use global or specified queue
@@ -254,23 +259,20 @@ module.config(function(
         // TODO: does not account for requestConfig.params, etc
         var url = requestConfig.url;
         if(url in queue) {
-          // _pendingRequests--;
-          return new Promise(function(resolve, reject) {
+          promise = new Promise(function(resolve, reject) {
             queue[url].then(resolve, reject);
           });
         } else {
-          _pendingRequests++;
+          promise = queue[url] = $delegate.apply($delegate, arguments);
+          promise.then(function(response) {
+            delete queue[url];
+            return response;
+          }).catch(function(err) {
+            delete queue[url];
+            throw err;
+          });
         }
-        promise = queue[url] = $delegate.apply($delegate, arguments);
-        promise.then(function(response) {
-          delete queue[url];
-          return response;
-        }).catch(function(err) {
-          delete queue[url];
-          throw err;
-        });
       } else {
-        _pendingRequests++;
         // normal operation
         promise = $delegate.apply($delegate, arguments);
       }
