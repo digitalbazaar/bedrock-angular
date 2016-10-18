@@ -106,6 +106,8 @@ api.config = {
 // prerender notification support
 var _prerenderResolve;
 var _prerenderPromise;
+var _pendingRequests = 0;
+var _prerenderReady;
 api.prerender = function() {
   return _prerenderPromise;
 };
@@ -116,11 +118,23 @@ events.on('bedrock-requirejs.init', function() {
   _prerenderPromise = new Promise(function(resolve) {
     _prerenderResolve = resolve;
   });
+  _notifyIfPrerenderReady();
 });
 
 var _init = false;
 
 return api;
+
+function _notifyIfPrerenderReady() {
+  if(_pendingRequests === 0 && _prerenderResolve) {
+    clearTimeout(_prerenderReady);
+    _prerenderReady = setTimeout(function() {
+      var tmp = _prerenderResolve;
+      _prerenderResolve = null;
+      tmp();
+    }, 500 /* TODO: config var?*/);
+  }
+}
 
 function init() {
 
@@ -222,8 +236,6 @@ module.config(function(
   /* @ngInject */
   $provide.decorator('$http', function($delegate, $timeout) {
     var _queue = {};
-    var _pendingRequests = 0;
-    var _prerenderReady;
     function $http(requestConfig) {
       // apply delay and then remove it
       if('delay' in requestConfig) {
@@ -272,17 +284,6 @@ module.config(function(
         _notifyIfPrerenderReady();
         throw err;
       });
-
-      function _notifyIfPrerenderReady() {
-        if(_pendingRequests === 0 && _prerenderResolve) {
-          clearTimeout(_prerenderReady);
-          _prerenderReady = setTimeout(function() {
-            var tmp = _prerenderResolve;
-            _prerenderResolve = null;
-            tmp();
-          }, 500 /* TODO: config var?*/);
-        }
-      }
     }
     angular.extend($http, $delegate);
     return $http;
