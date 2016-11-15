@@ -1,5 +1,10 @@
 # bedrock-angular ChangeLog
 
+## 2.4.1 - 2016-11-15
+
+### Changed
+- Remove `css` folder.
+
 ## 2.4.0 - 2016-10-18
 
 ### Added
