@@ -1,5 +1,10 @@
 # bedrock-angular ChangeLog
 
+## 2.4.2 - 2016-12-16
+
+### Fixed
+- Pull `vars` from `$$route` if available or not in `current`.
+
 ## 2.4.1 - 2016-11-15
 
 ### Changed
