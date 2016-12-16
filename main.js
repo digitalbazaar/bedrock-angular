@@ -408,9 +408,16 @@ module.run(function(
     // FIXME: angular13 fix this
     if(current) {
       $rootScope.route.current = current;
-      $rootScope.route.vars = current.vars || {};
+      if('$$route' in current) {
+        $rootScope.route.vars = (current.$$route.vars ||
+          (current.$$route.vars = {}));
+      } else if('vars' in current) {
+        $rootScope.route.vars = current.vars;
+      } else {
+        $rootScope.route.vars = {};
+      }
       // FIXME: remove once routes switched to above vars object
-      if(current.title) {
+      if(!('title' in $rootScope.route.vars) && current.title) {
         $rootScope.route.vars.title = current.title;
       }
     } else {
