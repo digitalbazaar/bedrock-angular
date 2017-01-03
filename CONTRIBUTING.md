@@ -393,6 +393,11 @@ Selectors (if using bedrock-angular-selector):
 * File: foo-bar-selector-component.js
 * Template: foo-bar-selector.html
 
+Bindings:
+
+* Inputs: `{foo: '<prefixFoo', bar: '<prefixBar'}`.
+* Outputs: `{onFoo: '&prefixOnFoo', onBar: '&prefixOnBar'}`.
+
 Best practices:
 
 * Use AngularJS 1.5+ component API whenever possible instead of the
