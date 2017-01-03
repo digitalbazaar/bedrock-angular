@@ -400,7 +400,16 @@ Best practices:
   controller as `self` in controller code.
 * Do not use two-way bindings unless there is no other reasonable
   way to achieve your goal. Use one-way bindings (`<`) for inputs and
-  expression execution functions (`&`) for outputs.
+  expression execution function (`&`) bindings for outputs. Try to treat
+  components like black boxes that receive pass-by-value information
+  and that only report updates via their output bindings, e.g. `&onFoo`,
+  `&onBar`. Sometimes references to shared data will be passed to
+  components, but components should always trigger well-defined events to
+  notify their parent that something has happened. Do not use or rely on
+  watches for this.
+* If you find yourself using `$scope.$watch`, see if there is a better
+  way. Prefer `$onChanges`, `ng-change`, or bindings that are triggered
+  at appropriate moments instead of relying on costly digest cycle changes.
 * If you must use the directive API, always use a controller if any model
   is required and use the "controller as" syntax. Refer to the controller as
   `self` in controller code. Use "controller as $ctrl" in the common case where
@@ -408,7 +417,9 @@ Best practices:
   property in directive.
 * Do not add variables directly to the scope, as this may lead to unexpected
   behavior that results from prototypical inheritance patterns. Instead, use
-  a controller and add them to it. Ensure you are also using `bindToController`
+  a controller and add them to it. This will happen automatically if you
+  are using the AngularJS 1.5+ component API. If you are not able to use this
+  API for some reason, then at least ensure you are using `bindToController`
   to make sure any bindings are attached to the controller not the scope
   directly. In other words, use this definition:
 ```js
