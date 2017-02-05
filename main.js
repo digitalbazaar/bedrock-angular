@@ -59,6 +59,7 @@ angular.module('bedrock.config', [])
     jsonld.useDocumentLoader('xhr', {secure: true});
     var documentLoader = jsonld.documentLoader;
     jsonld.documentLoader = function(url) {
+      // TODO: add integration w/$http cache
       if(url in config.data.contextMap) {
         url = config.data.contextMap[url];
       }
