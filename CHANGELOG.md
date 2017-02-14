@@ -1,5 +1,10 @@
 # bedrock-angular ChangeLog
 
+## 2.5.1 - 2017-02-14
+
+### Changed
+- Update font-awesome to 4.7.
+
 ## 2.5.0 - 2017-02-13
 
 ### Added
