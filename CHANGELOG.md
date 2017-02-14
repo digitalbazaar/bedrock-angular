@@ -1,5 +1,10 @@
 # bedrock-angular ChangeLog
 
+## 2.5.0 - 2017-02-13
+
+### Added
+- Add options for configuring root container css.
+
 ## 2.4.2 - 2016-12-16
 
 ### Fixed
