@@ -436,6 +436,8 @@ module.run(function(
   $rootScope.app.config = config;
   $rootScope.app.jsonld = util.jsonld;
   $rootScope.app.util = util;
+  $rootScope.app.ngClass = {};
+  $rootScope.app.ngStyle = {};
 
   function locationChangeStart(event) {
     /* Handle switching between single-page app routes and server-side
