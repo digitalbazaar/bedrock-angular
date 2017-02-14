@@ -16,7 +16,7 @@
     "angular-sanitize": "~1.5.0",
     "bootstrap": "~3.3.4",
     "es6-promise": "~2.0.0",
-    "font-awesome": "~4.3.0",
+    "font-awesome": "~4.7.0",
     "jquery": "~1.11.1",
     "jsonld": "~0.4.2",
     "ng-multi-transclude": "~0.1.5",
