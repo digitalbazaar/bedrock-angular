@@ -1,5 +1,8 @@
 # bedrock-angular ChangeLog
 
+### Changed
+- Fix root container class logic.
+
 ## 2.5.1 - 2017-02-14
 
 ### Changed

@@ -8,9 +8,8 @@
     Please <a href="http://www.updateyourbrowser.net/">update your browser.</a>
   </div>
 
-  <div class="{{(app.ngClass.rootContainer && '') || 'container'}}"
-    ng-class="app.ngClass.rootContainer"
-    ng-style="app.ngStyle.rootContainer">
+  <div ng-class="$root.app.ngClass.rootContainer || 'container'"
+    ng-style="$root.app.ngStyle.rootContainer">
     <div ng-view></div>
 
     <div ng-if="!$ctrl.route.changing && !$ctrl.route.on">
