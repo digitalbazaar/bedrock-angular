@@ -1,5 +1,8 @@
 # bedrock-angular ChangeLog
 
+### Changed
+- Use ng-if to hide demo warning.
+
 ## 2.5.2 - 2017-02-22
 
 ### Changed

@@ -16,6 +16,11 @@ function register(module) {
   });
 }
 
+// FIXME: update usage style
+// - remove use of productionMode.
+// - hide element externally via ng-if on br-demo-warning.
+// - use br-info-url param vs config var?
+
 return register;
 
 });

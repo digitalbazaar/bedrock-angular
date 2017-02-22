@@ -1,4 +1,4 @@
-<div class="alert alert-info" ng-hide="::$root.productionMode">
+<div class="alert alert-info" ng-if="::!$root.productionMode">
   <strong>Note:</strong> This is a demonstration website. Please do not enter any sensitive personal information.
   <span ng-if="::$root.demoWarningUrl">[<a ng-href="{{::$root.demoWarningUrl}}">more info...</a>]</span>
 </div>
