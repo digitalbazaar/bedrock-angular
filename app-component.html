@@ -35,13 +35,11 @@
       </div>
     </div>
 
-    <hr ng-if="::!$ctrl.config.productionMode" />
+    <hr ng-if="::!$ctrl.config.productionMode">
     <br-demo-warning></br-demo-warning>
 
-    <div ng-if="$ctrl.config.footer.show">
-      <hr/>
-      <br-footer ng-if="$ctrl.config.footer.show"></br-footer>
-    </div>
+    <hr ng-if="!$ctrl.route.vars.footer._hideOuterHr">
+    <br-footer ng-if="$ctrl.config.footer.show"></br-footer>
   </div>
 </div>
 <div ng-if="!$ctrl.isMain">
