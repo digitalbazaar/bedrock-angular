@@ -1,5 +1,8 @@
 # bedrock-angular ChangeLog
 
+### Changed
+- Support both bedrock-angular-footer 2 and 3.
+
 ## 2.5.2 - 2017-02-22
 
 ### Changed
