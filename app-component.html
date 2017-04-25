@@ -1,45 +1,53 @@
-<div ng-if="$ctrl.isMain" ng-show="!$ctrl.route.changing">
+<div ng-if="$ctrl.isMain">
   <br-navbar></br-navbar>
   <br-alerts br-fixed="true"></br-alerts>
 
-  <div ng-if="$ctrl.config.userAgent.obsolete" class="alert alert-danger">
-    Your browser ({{$ctrl.config.userAgent.family}}
-    {{$ctrl.config.userAgent.major}}) is <strong>out of date</strong>.
-    Please <a href="http://www.updateyourbrowser.net/">update your browser.</a>
+  <div ng-if="$ctrl.route.changing" class="br-route-load-spinner-container">
+    <div class="br-route-load-spinner text-center">
+      <i class="text-muted fa fa-gear fa-5x fa-spin"></i>
+    </div>
   </div>
 
-  <div ng-class="$root.app.ngClass.rootContainer || 'container'"
-    ng-style="$root.app.ngStyle.rootContainer">
-    <div ng-view></div>
+  <div ng-show="!$ctrl.route.changing">
+    <div ng-if="$ctrl.config.userAgent.obsolete" class="alert alert-danger">
+      Your browser ({{$ctrl.config.userAgent.family}}
+      {{$ctrl.config.userAgent.major}}) is <strong>out of date</strong>.
+      Please <a href="http://www.updateyourbrowser.net/">update your browser.</a>
+    </div>
 
-    <div ng-if="!$ctrl.route.changing && !$ctrl.route.on">
-      <div ng-if="$ctrl.path === '/'">
-        <div class="row">
-          <div class="col-md-10 col-md-offset-1">
-            <h2 class="headline">Introduction</h2>
-            <p>
-              Bedrock white-labelable intro page. This page can be replaced
-              by specifying an AngularJS route for "/".
-            </p>
+    <div ng-class="$root.app.ngClass.rootContainer || 'container'"
+      ng-style="$root.app.ngStyle.rootContainer">
+      <div ng-view></div>
+
+      <div ng-if="!$ctrl.route.changing && !$ctrl.route.on">
+        <div ng-if="$ctrl.path === '/'">
+          <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+              <h2 class="headline">Introduction</h2>
+              <p>
+                Bedrock white-labelable intro page. This page can be replaced
+                by specifying an AngularJS route for "/".
+              </p>
+            </div>
+          </div>
+        </div>
+        <div ng-if="$ctrl.path !== '/'">
+          <h2>Page Not Found</h2>
+
+          <div>
+            <p>Sorry, but the page you requested was not found.</p>
+            <p>If this problem persists, please contact
+            <a href="mailto:support@{{supportDomain}}">Customer Support</a>.</p>
           </div>
         </div>
       </div>
-      <div ng-if="$ctrl.path !== '/'">
-        <h2>Page Not Found</h2>
 
-        <div>
-          <p>Sorry, but the page you requested was not found.</p>
-          <p>If this problem persists, please contact
-          <a href="mailto:support@{{supportDomain}}">Customer Support</a>.</p>
-        </div>
-      </div>
+      <hr ng-if="::!$ctrl.config.productionMode">
+      <br-demo-warning></br-demo-warning>
+
+      <hr ng-if="!$ctrl.route.vars.footer._hideOuterHr">
+      <br-footer ng-if="$ctrl.config.footer.show"></br-footer>
     </div>
-
-    <hr ng-if="::!$ctrl.config.productionMode">
-    <br-demo-warning></br-demo-warning>
-
-    <hr ng-if="!$ctrl.route.vars.footer._hideOuterHr">
-    <br-footer ng-if="$ctrl.config.footer.show"></br-footer>
   </div>
 </div>
 <div ng-if="!$ctrl.isMain">
