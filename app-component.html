@@ -19,7 +19,7 @@
       ng-style="$root.app.ngStyle.rootContainer">
       <div ng-view></div>
 
-      <div ng-if="!$ctrl.route.changing && !$ctrl.route.on">
+      <div ng-if="!$ctrl.route.on">
         <div ng-if="$ctrl.path === '/'">
           <div class="row">
             <div class="col-md-10 col-md-offset-1">
