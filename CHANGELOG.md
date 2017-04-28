@@ -1,5 +1,13 @@
 # bedrock-angular ChangeLog
 
+## 2.7.0 - 2017-04-28
+
+### Added
+- Add base classes for content and view to enable easier
+  CSS customization.
+- Add automatic route loading animation spinner for
+  slow route resolvers.
+
 ## 2.6.0 - 2017-03-02
 
 ### Changed
