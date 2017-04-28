@@ -8,7 +8,7 @@
     </div>
   </div>
 
-  <div ng-show="!$ctrl.route.changing">
+  <div ng-show="!$ctrl.route.changing" class="br-content">
     <div ng-if="$ctrl.config.userAgent.obsolete" class="alert alert-danger">
       Your browser ({{$ctrl.config.userAgent.family}}
       {{$ctrl.config.userAgent.major}}) is <strong>out of date</strong>.
@@ -17,7 +17,7 @@
 
     <div ng-class="$root.app.ngClass.rootContainer || 'container'"
       ng-style="$root.app.ngStyle.rootContainer">
-      <div ng-view></div>
+      <div class="br-main-ng-view" ng-view></div>
 
       <div ng-if="!$ctrl.route.on">
         <div ng-if="$ctrl.path === '/'">
