@@ -1,5 +1,10 @@
 # bedrock-angular ChangeLog
 
+## 2.9.0 - 2017-05-08
+
+### Added
+- Add `br-route-loading` component for better extensibility.
+
 ## 2.8.1 - 2017-05-08
 
 ### Fixed
