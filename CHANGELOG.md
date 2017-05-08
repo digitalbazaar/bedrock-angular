@@ -1,5 +1,10 @@
 # bedrock-angular ChangeLog
 
+## 2.8.1 - 2017-05-08
+
+### Fixed
+- Remove erroneous `overflow-y` CSS rule.
+
 ## 2.8.0 - 2017-05-08
 
 ### Added
