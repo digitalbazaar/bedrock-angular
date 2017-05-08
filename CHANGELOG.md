@@ -1,5 +1,10 @@
 # bedrock-angular ChangeLog
 
+## 2.8.0 - 2017-05-08
+
+### Added
+- Add `br-flex-*` layout utility classes.
+
 ## 2.7.0 - 2017-04-28
 
 ### Added
