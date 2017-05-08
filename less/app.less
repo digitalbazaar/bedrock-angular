@@ -412,3 +412,94 @@ h1.headline {
 .br-route-load-spinner {
   flex: 1 0 auto;
 }
+
+/* Flexbox convenience classes */
+.br-flex-vertical-children {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+
+  /* children defaults */
+  &.br-flex-center-children-x {
+    align-items: center;
+  }
+  &.br-flex-center-children-y {
+    justify-content: center;
+  }
+  &.br-flex-stretch-children-width {
+    align-items: stretch;
+  }
+  &.br-flex-pull-children-up {
+    justify-content: flex-start;
+  }
+  &.br-flex-push-children-down {
+    justify-content: flex-end;
+  }
+
+  /* modifiers that may appear on children */
+  & > * {
+    flex: 0 1 auto;
+  }
+  & > .br-flex-stretch-width {
+    align-self: stretch;
+  }
+  & > .br-flex-stretch-height {
+    flex: 1 1 auto;
+  }
+  & > .br-flex-stretch {
+    align-self: stretch;
+    flex: 1 1 auto;
+  }
+  & > .br-flex-min-width {
+    align-self: center;
+  }
+  & > .br-flex-min-height {
+    flex: 0 0 auto;
+  }
+}
+.br-flex-horizontal-children {
+  display: flex;
+  flex-direction: row;
+
+  /* children defaults */
+  &.br-flex-center-children-x {
+    justify-content: center;
+  }
+  &.br-flex-center-children-y {
+    align-items: center;
+  }
+  &.br-flex-stretch-children-height {
+    align-items: stretch;
+  }
+  &.br-flex-pull-children-left {
+    justify-content: flex-start;
+  }
+  &.br-flex-push-children-right {
+    justify-content: flex-end;
+  }
+
+  /* modifiers that may appear on children */
+  & > * {
+    flex: 0 1 auto;
+  }
+  & > .br-flex-stretch-width {
+    flex: 1 1 auto;
+  }
+  & > .br-flex-stretch-height {
+    align-self: stretch;
+  }
+  & > .br-flex-stretch {
+    flex: 1 1 auto;
+    align-self: stretch;
+  }
+  & > .br-flex-min-width {
+    flex: 0 0 auto;
+  }
+  & > .br-flex-min-height {
+    align-self: center;
+  }
+}
+/* flex container modifiers */
+.br-flex-wrap-children {
+  flex-wrap: wrap;
+}
