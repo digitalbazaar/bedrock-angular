@@ -5,6 +5,7 @@
  *
  * @author Dave Longley
  */
+/* global angular */
 (function() {
 
 // if angular is globally defined, update early to track declared modules
@@ -31,13 +32,14 @@ define([
   'ng-multi-transclude',
   './app-component',
   './demo-warning-component',
-  './resolve-package-url-filter'
+  './resolve-package-url-filter',
+  './route-loading-component'
 ], function(angular, jsonld, events) {
 
 'use strict';
 
 // dependencies starting with './' that need to be registered on `init`
-var localDeps = Array.prototype.slice.call(arguments, arguments.length - 3);
+var localDeps = Array.prototype.slice.call(arguments, arguments.length - 4);
 
 if(!angular._bedrock) {
   // rewrite angular to keep track of declared modules
