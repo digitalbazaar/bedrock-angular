@@ -402,7 +402,9 @@ module.run(function(
   });
 
   $rootScope.$on('$routeChangeStart', function(event, next, current) {
-    $rootScope.route.changing = true;
+    if(!event.defaultPrevented) {
+      $rootScope.route.changing = true;
+    }
   });
 
   // set page vars when route changes
@@ -442,6 +444,9 @@ module.run(function(
   $rootScope.app.ngStyle = {};
 
   function locationChangeStart(event) {
+    if(event && event.defaultPrevented) {
+      return;
+    }
     /* Handle switching between single-page app routes and server-side
     rendered pages.
 
