@@ -1,7 +1,7 @@
 /*!
  * Main Bedrock Application module.
  *
- * Copyright (c) 2012-2016 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2012-2017 Digital Bazaar, Inc. All rights reserved.
  *
  * @author Dave Longley
  */
@@ -23,13 +23,7 @@ define([
   'angular',
   'jsonld',
   'requirejs/events',
-  'angular-animate',
-  'angular-bootstrap',
   'angular-route',
-  'angular-sanitize',
-  'es6-promise',
-  'jquery',
-  'ng-multi-transclude',
   './app-component',
   './demo-warning-component',
   './resolve-package-url-filter',
@@ -154,11 +148,8 @@ if(_init) {
 
 _init = true;
 
-// declare main module; use core dependencies and all other loaded modules
-var deps = [
-  'multi-transclude', 'ngAnimate', 'ngRoute', 'ngSanitize', 'ui.bootstrap'];
-deps = deps.concat(Object.keys(angular._bedrock.modules));
-var module = angular.module('bedrock', deps);
+// declare main module; use all loaded angular modules as dependencies
+var module = angular.module('bedrock', Object.keys(angular._bedrock.modules));
 
 // register local components
 localDeps.forEach(function(register) {
