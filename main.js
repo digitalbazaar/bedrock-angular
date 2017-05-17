@@ -87,7 +87,7 @@ api.start = function() {
   api.init();
   // bootstrap and set ng-app to indicate to test runner/other external apps
   // that application has bootstrapped (use strictDi when minified)
-  var root = angular.element('html');
+  var root = angular.element(document.querySelector('html'));
   angular.bootstrap(root, ['bedrock'], {strictDi: window.data.minify});
   angular.element(document).ready(function() {
     root.attr('ng-app', 'bedrock');
