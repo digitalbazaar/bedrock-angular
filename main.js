@@ -149,7 +149,8 @@ if(_init) {
 _init = true;
 
 // declare main module; use all loaded angular modules as dependencies
-var module = angular.module('bedrock', Object.keys(angular._bedrock.modules));
+var deps = ['ngRoute'].concat(Object.keys(angular._bedrock.modules));
+var module = angular.module('bedrock', deps);
 
 // register local components
 localDeps.forEach(function(register) {
