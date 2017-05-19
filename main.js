@@ -5,107 +5,35 @@
  *
  * @author Dave Longley
  */
-/* global angular */
-(function() {
-
-// if angular is globally defined, update early to track declared modules
-if(typeof angular !== 'undefined' && !angular._bedrock) {
-  angular._bedrock = {modules: {}};
-  angular._module = angular.module;
-  angular.module = function(name) {
-    var mod = angular._bedrock.modules[name] =
-      angular._module.apply(angular, arguments);
-    return mod;
-  };
-}
-
-define([
-  'angular',
-  'jsonld',
-  'requirejs/events',
-  'angular-route',
-  './app-component',
-  './demo-warning-component',
-  // TODO: remove `resolve-package-url-filter` in next major version!
-  './resolve-package-url-filter',
-  './route-loading-component'
-], function(angular, jsonld, events) {
-
 'use strict';
 
-// dependencies starting with './' that need to be registered on `init`
-var localDeps = Array.prototype.slice.call(arguments, arguments.length - 4);
-
-if(!angular._bedrock) {
-  // rewrite angular to keep track of declared modules
-  angular._bedrock = {modules: {}};
-  angular._module = angular.module;
-  angular.module = function(name) {
-    var mod = angular._bedrock.modules[name] =
-      angular._module.apply(angular, arguments);
-    return mod;
-  };
-}
-
-// main shared config
-angular.module('bedrock.config', [])
-  .value('config', {data: window.data})
-  .run(function(config) {
-    // TODO: move this into a new brJsonLdService? needs to load early though
-    // configure default document loader to load contexts locally
-    jsonld.useDocumentLoader('xhr', {secure: true});
-    var documentLoader = jsonld.documentLoader;
-    jsonld.documentLoader = function(url) {
-      // TODO: add integration w/$http cache
-      if(url in config.data.contextMap) {
-        url = config.data.contextMap[url];
-      }
-      return documentLoader(url);
-    };
-  });
-
-events.on('bedrock-requirejs.ready', function() {
-  if(api.config.autostart) {
-    api.start();
-  }
-});
-
-// module API to be exported
-var api = {};
-
-/**
- * Initializes the main angular application; to be called after all other
- * angular modules have been declared. This approach currently requires all
- * modules to be available before bootstrapping the application; a future
- * implementation should allow for lazy-loading as desired.
- */
-api.init = init;
+import angular from 'angular';
+import jsonld from 'jsonld';
+import 'angular-route';
+import AppComponent from './app-component';
+import DemoWarningComponent from './demo-warning-component';
+import RouteLoadingComponent from './route-loading-component';
 
 /**
  * Starts the main angular application by bootstrapping angular.
+ *
+ * @param root the root module for the application.
  */
-api.start = function() {
-  api.init();
+export function bootstrap(rootModule) {
   // bootstrap and set ng-app to indicate to test runner/other external apps
   // that application has bootstrapped (use strictDi when minified)
-  var root = angular.element(document.querySelector('html'));
-  angular.bootstrap(root, ['bedrock'], {strictDi: window.data.minify});
+  const root = angular.element(document.querySelector('html'));
+  angular.bootstrap(root, [rootModule.name], {strictDi: window.data.minify});
   angular.element(document).ready(function() {
-    root.attr('ng-app', 'bedrock');
+    root.attr('ng-app', rootModule.name);
   });
-};
-
-// bedrock-angular local configuration
-api.config = {
-  // automatically start on load
-  autostart: true
-};
+}
 
 // render notification support (useful for prerendering, etc.)
-var _renderResolve;
-var _renderPromise;
-var _pendingRequests = 0;
-var _rendered;
+let _renderResolve;
+let _renderPromise;
+let _pendingRequests = 0;
+let _rendered;
 
 /**
  * Returns a Promise that resolves once the page is considered fully rendered.
@@ -113,55 +41,54 @@ var _rendered;
  * This is useful for prerendering tools to call to determine if a page's
  * contents are ready to be proxied to a crawler that lacks JS-support.
  */
-api.render = function() {
-  return _renderPromise;
-};
-
-events.on('bedrock-requirejs.init', function() {
-  // initialize promise *after* `bedrock-requirejs.init` to ensure polyfills
-  // are ready
+export function render() {
+  if(_renderPromise) {
+    return _renderPromise;
+  }
   _renderPromise = new Promise(function(resolve) {
     _renderResolve = resolve;
   });
-  _notifyIfRendered();
-});
+  notifyIfRendered();
+  return _renderPromise;
+}
 
-var _init = false;
-
-return api;
-
-function _notifyIfRendered() {
+function notifyIfRendered() {
   if(_pendingRequests === 0 && _renderResolve) {
     clearTimeout(_rendered);
-    _rendered = setTimeout(function() {
-      var tmp = _renderResolve;
+    _rendered = setTimeout(() => {
+      const tmp = _renderResolve;
       _renderResolve = null;
       tmp();
-    }, window.data.renderTimeout);
+    }, config.data.renderTimeout);
   }
 }
 
-function init() {
+// shared application bedrock config
+export const config = {data: window.data};
 
-if(_init) {
-  return true;
-}
+// main bedrock module
+const module = angular.module('bedrock', ['ngRoute']);
 
-_init = true;
+// register root components
+module.component('brApp', AppComponent);
+module.component('brDemoWarning', DemoWarningComponent);
+module.component('brRouteLoading', RouteLoadingComponent);
 
-// declare main module; use all loaded angular modules as dependencies
-var deps = ['ngRoute'].concat(Object.keys(angular._bedrock.modules));
-var module = angular.module('bedrock', deps);
+// module config and run
+module
+  // injectable shared bedrock config
+  .value('config', config)
+  .config(configure)
+  .run(run);
 
-// register local components
-localDeps.forEach(function(register) {
-  register(module);
-});
+// stores initial URL to prevent infinite reloads on 404
+let initialUrl;
 
 /* @ngInject */
-module.config(function(
+function configure(
   $compileProvider, $httpProvider, $locationProvider, $provide,
   $routeProvider) {
+  // TODO: are these the defaults now in Angular 1.6? Can we remove?
   $locationProvider.html5Mode(true);
   $locationProvider.hashPrefix('!');
 
@@ -169,17 +96,28 @@ module.config(function(
   // See: https://docs.angularjs.org/guide/production
   $compileProvider.debugInfoEnabled(false);
 
-  // add non-route
-  $routeProvider.otherwise({none: true});
+  // route not found handling
+  $routeProvider.when('/404', {
+    templateUrl: 'bedrock-angular/404.html'
+  }).otherwise({
+    /* @ngInject */
+    resolveRedirectTo: ($location) => {
+      if(initialUrl === $location.url()) {
+        return '/404';
+      }
+      $location.reload();
+    }
+  });
 
+  // TODO: is this the default in Angular 1.6 now? can we remove?
   $httpProvider.useApplyAsync(true);
 
   // normalize errors, deal w/auth redirection
   /* @ngInject */
-  $httpProvider.interceptors.push(function($rootScope, $q) {
+  $httpProvider.interceptors.push(($rootScope, $q) => {
     return {
-      responseError: function(response) {
-        var error = response.data || {};
+      responseError: async response => {
+        let error = response.data || {};
         // handle plain text error responses
         if(typeof error === 'string') {
           error = {};
@@ -202,17 +140,17 @@ module.config(function(
   });
 
   /* @ngInject */
-  $provide.decorator('$templateRequest', function($delegate, $filter, config) {
-    // get base URL for modules and override list
-    var templateConfig = config.data.angular.templates;
-    var baseUrl = templateConfig.baseUrl;
-    var overrides = templateConfig.overrides;
+  $provide.decorator('$templateRequest', function($delegate, config) {
+    // replace $templateRequest with package-relative template URL handling
+    // and template override support:
 
-    // replace $templateRequest
-    handleRequestFn.totalPendingRequests = $delegate.totalPendingRequests;
-    return handleRequestFn;
-    function handleRequestFn(tpl) {
-      var relativeUrl = tpl;
+    // get base URL for modules and override list
+    const templateConfig = config.data.angular.templates;
+    const baseUrl = templateConfig.baseUrl;
+    const overrides = templateConfig.overrides;
+
+    const $templateRequest = function(tpl) {
+      let relativeUrl = tpl;
       if(tpl.indexOf(baseUrl) === 0) {
         relativeUrl = tpl.substr(baseUrl.length);
       } else if(tpl.indexOf('./') === 0) {
@@ -226,187 +164,130 @@ module.config(function(
         tpl = baseUrl + overrides[relativeUrl];
       }
       arguments[0] = tpl;
-      var promise = $delegate.apply($delegate, arguments).finally(function() {
-        handleRequestFn.totalPendingRequests = $delegate.totalPendingRequests;
+      const promise = $delegate.apply($delegate, arguments).finally(() => {
+        $templateRequest.totalPendingRequests = $delegate.totalPendingRequests;
       });
-      handleRequestFn.totalPendingRequests = $delegate.totalPendingRequests;
+      $templateRequest.totalPendingRequests = $delegate.totalPendingRequests;
       return promise;
-    }
-  });
-
-  // FIXME: deprecate, do not include service data in rootScope
-  /* @ngInject */
-  $provide.decorator('$rootScope', function($delegate) {
-    $delegate.app = $delegate.app || {};
-    $delegate.app.services = $delegate.app.services || {};
-    return $delegate;
+    };
+    $templateRequest.totalPendingRequests = $delegate.totalPendingRequests;
+    return $templateRequest;
   });
 
   /* @ngInject */
-  $provide.decorator('$http', function($delegate, $timeout) {
-    var _queue = {};
-    function $http(requestConfig) {
+  $provide.decorator('$http', ($delegate, $q) => {
+    // define $http request queue, integrated with prerendering capability:
+
+    // shared global queue, can be overridden with a queue from requestConfig
+    const _queue = {};
+
+    // override $http to use queue and track pending requests for render notify
+    const $http = async function(requestConfig) {
       _pendingRequests++;
+      let response;
+      let error;
 
-      // apply delay and then remove it
-      if('delay' in requestConfig) {
-        return $timeout(function() {
-          requestConfig = angular.extend({}, requestConfig);
-          delete requestConfig.delay;
-          _pendingRequests--;
-          return $http(requestConfig);
-        }, requestConfig.delay);
-      }
-
-      var promise;
-
-      // allow queue if method is GET
-      if(requestConfig.queue && requestConfig.method === 'GET') {
-        // use global or specified queue
-        var queue = (requestConfig.queue === true ?
-          _queue : requestConfig.queue);
-        // TODO: does not account for requestConfig.params, etc
-        var url = requestConfig.url;
-        if(url in queue) {
-          promise = new Promise(function(resolve, reject) {
-            queue[url].then(resolve, reject);
-          });
+      try {
+        // if method is not GET or queue is not truthy, do not use queue
+        if(requestConfig.method.toLowerCase() !== 'get' ||
+          !requestConfig.queue) {
+          response = await $delegate.apply($delegate, arguments);
         } else {
-          promise = queue[url] = $delegate.apply($delegate, arguments);
-          promise.then(function(response) {
-            delete queue[url];
-            return response;
-          }).catch(function(err) {
-            delete queue[url];
-            throw err;
-          });
+          // use global or specified queue
+          const queue = (requestConfig.queue === true ?
+            _queue : requestConfig.queue);
+          // TODO: does not account for requestConfig.params, etc
+          const url = requestConfig.url;
+          if(url in queue) {
+            // await response but do not clear queue because we were not
+            // the first to request the URL
+            response = await queue[url];
+          } else {
+            // await response and ensure queue is cleared because we're
+            // the first to request the URL
+            try {
+              queue[url] = $delegate.apply($delegate, arguments);
+              response = await queue[url];
+              delete queue[url];
+            } catch(e) {
+              delete queue[url];
+              error = e;
+            }
+          }
         }
-      } else {
-        // normal operation
-        promise = $delegate.apply($delegate, arguments);
+      } catch(e) {
+        error = e;
       }
 
-      return promise.then(function(response) {
-        _pendingRequests--;
-        _notifyIfRendered();
-        return response;
-      }).catch(function(err) {
-        _pendingRequests--;
-        _notifyIfRendered();
-        throw err;
-      });
-    }
+      // always decrement pending request count and notify if rendered
+      _pendingRequests--;
+      notifyIfRendered();
+
+      // now throw error if detected
+      if(error) {
+        return $q.reject(error);
+      }
+
+      return $q.resolve(response);
+    };
     angular.extend($http, $delegate);
     return $http;
   });
-});
-
-// TODO: `util` seems like it should be a service, why isn't it?
-
-// utility functions
-var util = {};
-module.value('util', util);
-util.parseFloat = parseFloat;
-
-util.jsonld = {};
-util.jsonld.isType = function(obj, value) {
-  var types = obj.type;
-  if(types) {
-    if(!angular.isArray(types)) {
-      types = [types];
-    }
-    return types.indexOf(value) !== -1;
-  }
-  return false;
-};
-
-util.w3cDate = function(date) {
-  if(date === undefined || date === null) {
-    date = new Date();
-  } else if(typeof date === 'number' || typeof date === 'string') {
-    date = new Date(date);
-  }
-  return (
-    date.getUTCFullYear() + '-' +
-    util.zeroFill(date.getUTCMonth() + 1) + '-' +
-    util.zeroFill(date.getUTCDate()) + 'T' +
-    util.zeroFill(date.getUTCHours()) + ':' +
-    util.zeroFill(date.getUTCMinutes()) + ':' +
-    util.zeroFill(date.getUTCSeconds()) + 'Z');
-};
-util.zeroFill = function(num) {
-  return (num < 10) ? '0' + num : '' + num;
-};
-
-var _routes;
-util.getRouteFromPath = function($route, path) {
-  if(!_routes) {
-    // init routes
-    _routes = [];
-    angular.forEach($route.routes, function(route, path) {
-      _routes.push({
-        route: route,
-        regex: getRouteRegex(path)
-      });
-    });
-  }
-  for(var i = 0; i < _routes.length; ++i) {
-    if(_routes[i].regex.test(path)) {
-      return _routes[i].route;
-    }
-  }
-  return null;
-};
-
-// TODO: move much (if not all) module.run code to app-component's controller?
+}
 
 /* @ngInject */
-module.run(function(
-  $http, $location, $rootScope, $route, $window, config, util) {
+function run($http, $location, $rootScope, $window, config) {
   /* Note: $route is injected above to trigger watching routes to ensure
     pages are loaded properly. */
+
+  // TODO: move this into a new brJsonLdService? needs to load early though
+  // configure default document loader to load contexts locally
+  jsonld.useDocumentLoader('xhr', {secure: true});
+  const documentLoader = jsonld.documentLoader;
+  jsonld.documentLoader = url => {
+    // TODO: add integration w/$http cache
+    if(url in config.data.contextMap) {
+      url = config.data.contextMap[url];
+    }
+    return documentLoader(url);
+  };
 
   // default headers
   $http.defaults.headers.common.Accept =
     'application/ld+json, application/json, text/plain, */*';
-  $http.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-  // TODO: deprecated, only really used for `$root.requirejs.toUrl` in
-  // templates which has been replaced by `resolvePackageUrl` filter
-  $rootScope.requirejs = requirejs;
+  // store initial URL to prevent redirect loops
+  initialUrl = $location.url();
 
   // set site and page titles
   $rootScope.siteTitle = $window.data.siteTitle;
   $rootScope.pageTitle = $window.data.pageTitle;
+  // TODO: move to frontend configuration file
   $rootScope.productionMode = $window.data.productionMode;
   $rootScope.demoWarningUrl = $window.data.demoWarningUrl;
 
   // route info
   $rootScope.route = {
-    changing: false,
-    // tracks whether current page is using an angular view (page is a route)
-    on: false
+    changing: false
   };
+  // reveal location to view
   $rootScope.location = $location;
 
-  // do immediate initial location change prior to loading any page content
-  // in case a redirect is necessary
-  locationChangeStart();
-
-  $rootScope.$on('$locationChangeStart', locationChangeStart);
-
-  // monitor whether or not an angular view is in use (current page is a route)
-  $rootScope.$on('$viewContentLoaded', function() {
-    $rootScope.route.on = true;
+  // reveal route changes to view
+  $rootScope.$on('$routeChangeStart', event => {
+    if(!event.defaultPrevented) {
+      $rootScope.route.changing = true;
+    }
   });
 
-  $rootScope.$on('$routeChangeStart', function(event, next, current) {
-    $rootScope.route.changing = true;
-  });
-
-  // set page vars when route changes
-  $rootScope.$on('$routeChangeSuccess', function(event, current, previous) {
+  $rootScope.$on('$routeChangeError', () => {
     $rootScope.route.changing = false;
+  });
+
+  // set route vars when route changes
+  $rootScope.$on('$routeChangeSuccess', (event, current, previous) => {
+    $rootScope.route.changing = false;
+    // TODO: clean up needed
     // FIXME: angular13 fix this
     if(current) {
       $rootScope.route.current = current;
@@ -428,80 +309,8 @@ module.run(function(
     }
   });
 
-  // set page title when route changes
-  $rootScope.$on('$routeChangeError', function(event) {
-    $rootScope.route.changing = false;
-  });
-
-  // access to app core (utility functions, services, etc.)
-  $rootScope.app.config = config;
-  $rootScope.app.jsonld = util.jsonld;
-  $rootScope.app.util = util;
+  // access to app core class and style
+  $rootScope.app = {};
   $rootScope.app.ngClass = {};
   $rootScope.app.ngStyle = {};
-
-  function locationChangeStart(event) {
-    /* Handle switching between single-page app routes and server-side
-    rendered pages.
-
-    The current location is: $window.location.href
-    The new location is: $location.path()
-
-    If $location.absUrl() matches $window.location.href, we don't need to
-    reload the page as there would be no location change. Otherwise, we need
-    to do a full page reload unless the location change is not inter-route.
-    In other words, unless the current page is a route and we're changing to
-    another route, then we must reload. The possible location change
-    combinations and their reload requirements are below:
-
-    non-route => non-route (must reload)
-    non-route => route (must reload)
-    route => non-route (must reload)
-    route => route (no reload necessary)
-    */
-
-    // return early if the new location wouldn't change the current one
-    if($window.location.href === $location.absUrl()) {
-      return;
-    }
-
-    // we must reload if we're not staying in the route system
-    var reload = !($rootScope.route.on &&
-      util.getRouteFromPath($route, $location.path()));
-    if(reload) {
-      $window.location.href = $location.absUrl();
-      if(event) {
-        event.preventDefault();
-      } else {
-        throw new Error('Location change is not inter-route; reload required.');
-      }
-      return;
-    }
-  }
-});
-
 }
-
-// from angular.js for route matching
-// TODO: could probably be simplified
-function getRouteRegex(when) {
-  // Escape regexp special characters.
-  when = '^' + when.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + '$';
-  var regex = '', params = [];
-  var re = /:(\w+)/g, paramMatch, lastMatchedIndex = 0;
-  while((paramMatch = re.exec(when)) !== null) {
-    // Find each :param in `when` and replace it with a capturing group.
-    // Append all other sections of when unchanged.
-    regex += when.slice(lastMatchedIndex, paramMatch.index);
-    regex += '([^\\/]*)';
-    params.push(paramMatch[1]);
-    lastMatchedIndex = re.lastIndex;
-  }
-  // Append trailing path part.
-  regex += when.substr(lastMatchedIndex);
-  return new RegExp(regex);
-}
-
-});
-
-})();

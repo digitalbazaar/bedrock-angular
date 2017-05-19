@@ -1,24 +1,20 @@
 /*!
  * Main Bedrock App Component.
  *
- * Copyright (c) 2016 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2016-2017 Digital Bazaar, Inc. All rights reserved.
  *
  * @author Dave Longley
  */
-define([], function() {
-
 'use strict';
 
-function register(module) {
-  module.component('brApp', {
-    controller: Ctrl,
-    templateUrl: requirejs.toUrl('bedrock-angular/app-component.html')
-  });
-}
+export default {
+  controller: Ctrl,
+  templateUrl: 'bedrock-angular/app-component.html'
+};
 
 /* @ngInject */
 function Ctrl($location, $rootScope, config) {
-  var self = this;
+  const self = this;
 
   self.config = config.data;
   self.route = $rootScope.route;
@@ -36,6 +32,7 @@ function Ctrl($location, $rootScope, config) {
       'Template not found or includes a recursive "br-app" component.');
   }
 
+  // TODO: update google analytics
   if(self.config.googleAnalytics.enabled) {
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', self.config.googleAnalytics.account]);
@@ -51,7 +48,3 @@ function Ctrl($location, $rootScope, config) {
     })();
   }
 }
-
-return register;
-
-});
