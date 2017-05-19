@@ -105,7 +105,7 @@ function configure(
       if(initialUrl === $location.url()) {
         return '/404';
       }
-      $location.reload();
+      window.location = $location.url();
     }
   });
 
