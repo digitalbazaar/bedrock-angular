@@ -5,6 +5,7 @@
  *
  * @author Dave Longley
  */
+// TODO: remove this entire filter in next major version!
 define([], function() {
 
 'use strict';

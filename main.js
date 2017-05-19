@@ -26,6 +26,7 @@ define([
   'angular-route',
   './app-component',
   './demo-warning-component',
+  // TODO: remove `resolve-package-url-filter` in next major version!
   './resolve-package-url-filter',
   './route-loading-component'
 ], function(angular, jsonld, events) {
@@ -203,9 +204,9 @@ module.config(function(
   /* @ngInject */
   $provide.decorator('$templateRequest', function($delegate, $filter, config) {
     // get base URL for modules and override list
-    var baseUrl = $filter('resolvePackageUrl')('bedrock-angular');
-    baseUrl = baseUrl.substr(0, baseUrl.indexOf('bedrock-angular'));
-    var overrides = config.data.angular.templates.overrides;
+    var templateConfig = config.data.angular.templates;
+    var baseUrl = templateConfig.baseUrl;
+    var overrides = templateConfig.overrides;
 
     // replace $templateRequest
     handleRequestFn.totalPendingRequests = $delegate.totalPendingRequests;
@@ -214,7 +215,13 @@ module.config(function(
       var relativeUrl = tpl;
       if(tpl.indexOf(baseUrl) === 0) {
         relativeUrl = tpl.substr(baseUrl.length);
+      } else if(tpl.indexOf('./') === 0) {
+        relativeUrl = tpl.substr(1);
+        tpl = baseUrl + relativeUrl;
+      } else if(tpl[0] !== '/') {
+        tpl = baseUrl + '/' + relativeUrl;
       }
+      // TODO: handle relative urls comprehensively (e.g. '../' case, etc.)
       if(relativeUrl in overrides) {
         tpl = baseUrl + overrides[relativeUrl];
       }
