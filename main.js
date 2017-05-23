@@ -10,9 +10,9 @@
 import angular from 'angular';
 import jsonld from 'jsonld';
 import 'angular-route';
-import AppComponent from './app-component';
-import DemoWarningComponent from './demo-warning-component';
-import RouteLoadingComponent from './route-loading-component';
+import AppComponent from './app-component.js';
+import DemoWarningComponent from './demo-warning-component.js';
+import RouteLoadingComponent from './route-loading-component.js';
 
 /**
  * Starts the main angular application by bootstrapping angular.
