@@ -14,12 +14,31 @@ import AppComponent from './app-component.js';
 import DemoWarningComponent from './demo-warning-component.js';
 import RouteLoadingComponent from './route-loading-component.js';
 
+let _appModule;
+
+/**
+ * Sets the name of the main app module to load on bootstrap.
+ *
+ * @param appModule the module for the main application.
+ */
+export function setMainModule(appModule) {
+  _appModule = appModule;
+}
+
 /**
  * Starts the main angular application by bootstrapping angular.
  *
- * @param root the root module for the application.
+ * @param [appModule] the module for the main application.
  */
-export function bootstrap(rootModule) {
+export function bootstrap(appModule) {
+  if(!appModule) {
+    appModule = _appModule;
+  }
+
+  // wrap app module to ensure bedrock is required and `root` name is
+  // used, which is helpful for testing
+  const rootModule = angular.module('root', ['bedrock', appModule.name]);
+
   // bootstrap and set ng-app to indicate to test runner/other external apps
   // that application has bootstrapped (use strictDi when minified)
   const root = angular.element(document.querySelector('html'));
