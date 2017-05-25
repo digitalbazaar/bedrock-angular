@@ -15,6 +15,7 @@ import DemoWarningComponent from './demo-warning-component.js';
 import RouteLoadingComponent from './route-loading-component.js';
 
 let _appModule;
+let _startFn = bootstrap;
 
 /**
  * Sets the name of the main app module to load on bootstrap.
@@ -26,7 +27,30 @@ export function setMainModule(appModule) {
 }
 
 /**
- * Starts the main angular application by bootstrapping angular.
+ * Starts the main angular application. By default, this function
+ * will simply call `bootstrap`. It can be overridden via `setStart` to run
+ * some custom function instead pushing the responsibility to call `bootstrap`
+ * to the entity that called `setStart`.
+ */
+export function start() {
+  return _startFn();
+}
+
+/**
+ * Overrides `start` with another function. The caller of this function is
+ * responsible for calling `bootstrap` at a later point to cause the angular
+ * application to be bootstrapped. This is useful as a test hook; a test module
+ * may call `overrideStart` to get control over the startup process and
+ * delay bootstrapping an application until some other event has occurred.
+ *
+ * @param fn the new start function to call.
+ */
+export function overrideStart(fn) {
+  _startFn = fn;
+}
+
+/**
+ * Bootstraps the main angular application.
  *
  * @param [appModule] the module for the main application.
  */
