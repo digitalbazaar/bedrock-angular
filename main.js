@@ -14,17 +14,17 @@ import AppComponent from './app-component.js';
 import DemoWarningComponent from './demo-warning-component.js';
 import RouteLoadingComponent from './route-loading-component.js';
 
-// access to the main module; can be wrapped when calling `setMainModule`,
+// access to the root module; can be wrapped when calling `setRootModule`,
 // which is useful for testing
-export let mainModule;
+export let rootModule;
 
 /**
- * Sets the name of the main app module to load on bootstrap.
+ * Sets the name of the root app module to load on bootstrap.
  *
  * @param appModule the module for the main application.
  */
-export function setMainModule(appModule) {
-  mainModule = appModule;
+export function setRootModule(appModule) {
+  rootModule = appModule;
 }
 
 /**
@@ -51,25 +51,24 @@ export function setStart(fn) {
 /**
  * Bootstraps the main angular application.
  *
- * @param [appModule] the module for the main application.
+ * @param [appModule] the root module for the main application.
  */
 export function bootstrap(appModule) {
   if(!appModule) {
-    appModule = mainModule;
+    appModule = rootModule;
   } else {
-    mainModule = appModule;
+    rootModule = appModule;
   }
 
-  // wrap app module to ensure bedrock is required and `root` name is
-  // used, which is helpful for testing
-  const rootModule = angular.module('root', ['bedrock', appModule.name]);
+  // wrap app module to ensure bedrock is required
+  const _rootModule = angular.module('_root', ['bedrock', appModule.name]);
 
   // bootstrap and set ng-app to indicate to test runner/other external apps
   // that application has bootstrapped (use strictDi when minified)
   const root = angular.element(document.querySelector('html'));
-  angular.bootstrap(root, [rootModule.name], {strictDi: window.data.minify});
+  angular.bootstrap(root, [_rootModule.name], {strictDi: window.data.minify});
   angular.element(document).ready(function() {
-    root.attr('ng-app', rootModule.name);
+    root.attr('ng-app', _rootModule.name);
   });
 }
 
