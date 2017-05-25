@@ -14,8 +14,9 @@ import AppComponent from './app-component.js';
 import DemoWarningComponent from './demo-warning-component.js';
 import RouteLoadingComponent from './route-loading-component.js';
 
-let _appModule;
-let _startFn = bootstrap;
+// access to the main module; can be wrapped when calling `setMainModule`,
+// which is useful for testing
+export let mainModule;
 
 /**
  * Sets the name of the main app module to load on bootstrap.
@@ -23,30 +24,28 @@ let _startFn = bootstrap;
  * @param appModule the module for the main application.
  */
 export function setMainModule(appModule) {
-  _appModule = appModule;
+  mainModule = appModule;
 }
 
 /**
- * Starts the main angular application. By default, this function
- * will simply call `bootstrap`. It can be overridden via `setStart` to run
+ * Starts the main angular application. By default, this points to the
+ * `bootstrap` function. It can be overridden via `setStart` to run
  * some custom function instead pushing the responsibility to call `bootstrap`
  * to the entity that called `setStart`.
  */
-export function start() {
-  return _startFn();
-}
+export let start = bootstrap;
 
 /**
- * Overrides `start` with another function. The caller of this function is
+ * Replaces `start` with another function. The caller of this function is
  * responsible for calling `bootstrap` at a later point to cause the angular
  * application to be bootstrapped. This is useful as a test hook; a test module
- * may call `overrideStart` to get control over the startup process and
+ * may call `setStart` to get control over the startup process and
  * delay bootstrapping an application until some other event has occurred.
  *
  * @param fn the new start function to call.
  */
-export function overrideStart(fn) {
-  _startFn = fn;
+export function setStart(fn) {
+  start = fn;
 }
 
 /**
@@ -56,7 +55,9 @@ export function overrideStart(fn) {
  */
 export function bootstrap(appModule) {
   if(!appModule) {
-    appModule = _appModule;
+    appModule = mainModule;
+  } else {
+    mainModule = appModule;
   }
 
   // wrap app module to ensure bedrock is required and `root` name is
