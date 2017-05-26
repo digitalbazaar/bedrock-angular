@@ -1,5 +1,5 @@
 {
-  "name": "@bedrock/bedrock-angular",
+  "name": "bedrock-angular",
   "version": "3.0.0-dev",
   "description": "Bedrock AngularJS Framework.",
   "main": "./main.js",
