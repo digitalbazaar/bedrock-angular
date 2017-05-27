@@ -2,18 +2,11 @@
   "name": "bedrock-angular",
   "version": "3.0.0-dev",
   "description": "Bedrock AngularJS Framework.",
-  "main": "./main.js",
-  "less": "./less/app.less",
+  "main": "index.js",
+  "less": "app.less",
   "dependencies": {
     "angular": "~1.6.4",
-    "angular-animate": "~1.6.4",
-    "angular-ui-bootstrap": "~2.5.0",
     "angular-route": "~1.6.4",
-    "angular-sanitize": "~1.6.4",
-    "bootstrap": "~3.3.4",
-    "es6-promise": "~2.0.0",
-    "font-awesome": "~4.7.0",
-    "jquery": "~1.11.1",
     "jsonld": "~0.4.2"
   },
   "bedrock": {
