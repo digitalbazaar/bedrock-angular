@@ -16,6 +16,9 @@
     "jquery": "~1.11.1",
     "jsonld": "~0.4.2"
   },
+  "bedrock": {
+    "browserDependencies": "all"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/digitalbazaar/bedrock-angular"
