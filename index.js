@@ -11,6 +11,7 @@ import angular from 'angular';
 import jsonld from 'jsonld';
 import 'angular-route';
 import AppComponent from './app-component.js';
+// TODO: move `demo-warning-component` to another package, perhaps standalone
 import DemoWarningComponent from './demo-warning-component.js';
 import RouteLoadingComponent from './route-loading-component.js';
 
