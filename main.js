@@ -54,6 +54,16 @@ export function setStart(fn) {
  * @param [appModule] the root module for the main application.
  */
 export function bootstrap(appModule) {
+  if(global._bedrock && global._bedrock.bootstrapped) {
+    console.warn('bedrock.bootstrap called more than once; ignoring.');
+    return;
+  }
+
+  // note that bedrock application has been bootstrapped
+  global._bedrock = {
+    bootstrapped: true
+  };
+
   if(!appModule) {
     appModule = rootModule;
   } else {
@@ -191,6 +201,9 @@ function configure(
     const templateConfig = config.data.angular.templates;
     const baseUrl = templateConfig.baseUrl;
     const overrides = templateConfig.overrides;
+    if(!baseUrl) {
+      throw new Error('"config.data.angular.templates.baseUrl" not set.');
+    }
 
     const $templateRequest = function(tpl) {
       let relativeUrl = tpl;
