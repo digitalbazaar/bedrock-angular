@@ -218,7 +218,7 @@ function configure(
       }
       // TODO: handle relative urls comprehensively (e.g. '../' case, etc.)
       if(relativeUrl in overrides) {
-        tpl = baseUrl + overrides[relativeUrl];
+        tpl = baseUrl + '/' + overrides[relativeUrl];
       }
       arguments[0] = tpl;
       const promise = $delegate.apply($delegate, arguments).finally(() => {
