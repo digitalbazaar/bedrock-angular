@@ -2,6 +2,7 @@
 
 ### Removed
 - Remove unused fonts/ dir.
+- Remove bower.json.
 
 ## 2.9.0 - 2017-05-08
 
