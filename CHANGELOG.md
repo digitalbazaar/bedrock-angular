@@ -1,5 +1,8 @@
 # bedrock-angular ChangeLog
 
+### Removed
+- Remove unused fonts/ dir.
+
 ## 2.9.0 - 2017-05-08
 
 ### Added
