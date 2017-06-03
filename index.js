@@ -194,7 +194,8 @@ function configure(
   });
 
   /* @ngInject */
-  $provide.decorator('$templateRequest', function($delegate, config) {
+  $provide.decorator(
+    '$templateRequest', function($delegate, $templateCache, config) {
     // replace $templateRequest with package-relative template URL handling
     // and template override support:
 
@@ -207,18 +208,27 @@ function configure(
     }
 
     const $templateRequest = function(tpl) {
+      const originalUrl = tpl;
       let relativeUrl = tpl;
       if(tpl.indexOf(baseUrl) === 0) {
         relativeUrl = tpl.substr(baseUrl.length);
       } else if(tpl.indexOf('./') === 0) {
         relativeUrl = tpl.substr(1);
         tpl = baseUrl + relativeUrl;
-      } else if(tpl[0] !== '/') {
-        tpl = baseUrl + '/' + relativeUrl;
       }
       // TODO: handle relative urls comprehensively (e.g. '../' case, etc.)
       if(relativeUrl in overrides) {
         tpl = baseUrl + '/' + overrides[relativeUrl];
+      } else if(originalUrl[0] !== '/') {
+        // here, the original URL is not in the overrides list which means
+        // we now need to decide whether or not to prepend baseUrl to it;
+        // if there's a cache hit on it we don't prepend because the module
+        // probably manually added its templates to the template cache ...
+        // otherwise we need to prepend the baseUrl so the relative URL can
+        // be properly resolved against its parent module
+        if($templateCache.get(originalUrl) === undefined) {
+          tpl = baseUrl + '/' + relativeUrl;
+        }
       }
       arguments[0] = tpl;
       const promise = $delegate.apply($delegate, arguments).finally(() => {
