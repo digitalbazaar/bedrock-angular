@@ -1,5 +1,21 @@
 # bedrock-angular ChangeLog
 
+## 3.0.0 - 2017-06-04
+
+### Added
+- New API for setting the root module and starting/bootstrapping
+  the angular application.
+
+### Changed
+- BREAKING: Switch package manager from bower to npm.
+- BREAKING: Replace requirejs/amd with ES6 import.
+- BREAKING: Simplify app-component.html, removing significant logic
+  and replacing with customizable (but undefined by this package)
+  components such as br-header, br-footer, and br-router-outlet.
+- BREAKING: General rewrite and simplification of route handling
+  and all other core bedrock-angular features.
+- Angular 1.6.x is required.
+
 ### Removed
 - Remove unused fonts/ dir.
 - Remove bower.json.
