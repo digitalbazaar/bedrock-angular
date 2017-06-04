@@ -3,9 +3,9 @@
 
   <br-route-loading ng-if="$ctrl.route.changing"></br-route-loading>
 
-  <br-route ng-hide="$ctrl.route.changing">
+  <br-router-outlet ng-hide="$ctrl.route.changing">
     <ng-view></ng-view>
-  </br-route>
+  </br-router-outlet>
 
   <br-footer ng-hide="$ctrl.route.changing"></br-footer>
 </br-root>
