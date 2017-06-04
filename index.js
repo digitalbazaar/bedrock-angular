@@ -11,8 +11,6 @@ import angular from 'angular';
 import jsonld from 'jsonld';
 import 'angular-route';
 import AppComponent from './app-component.js';
-// TODO: move `demo-warning-component` to another package, perhaps standalone
-import DemoWarningComponent from './demo-warning-component.js';
 import RouteLoadingComponent from './route-loading-component.js';
 
 // access to the root module; can be wrapped when calling `setRootModule`,
@@ -125,7 +123,6 @@ const module = angular.module('bedrock', ['ngRoute']);
 
 // register root components
 module.component('brApp', AppComponent);
-module.component('brDemoWarning', DemoWarningComponent);
 module.component('brRouteLoading', RouteLoadingComponent);
 
 // module config and run
@@ -326,12 +323,8 @@ function run($http, $location, $rootScope, $window, config) {
   // store initial URL to prevent redirect loops
   initialUrl = $location.url();
 
-  // set site and page titles
+  // set site title
   $rootScope.siteTitle = $window.data.siteTitle;
-  $rootScope.pageTitle = $window.data.pageTitle;
-  // TODO: move to frontend configuration file
-  $rootScope.productionMode = $window.data.productionMode;
-  $rootScope.demoWarningUrl = $window.data.demoWarningUrl;
 
   // route info
   $rootScope.route = {

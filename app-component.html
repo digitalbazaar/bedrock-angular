@@ -1,15 +1,12 @@
 <br-root ng-if="$ctrl.isMain">
-  <br-header>
-    <br-navbar></br-navbar>
-    <!-- <br-alerts br-fixed="true"></br-alerts>-->
-  </br-header>
+  <br-header></br-header>
 
   <br-route-loading ng-if="$ctrl.route.changing"></br-route-loading>
 
   <br-route ng-hide="$ctrl.route.changing">
     <ng-view></ng-view>
   </br-route>
-  
+
   <br-footer ng-hide="$ctrl.route.changing"></br-footer>
 </br-root>
 <br-root-error ng-if="!$ctrl.isMain">
