@@ -13,6 +13,8 @@ import 'angular-route';
 import AppComponent from './app-component.js';
 import RouteLoadingComponent from './route-loading-component.js';
 
+global.jsonldjs = jsonld;
+
 // access to the root module; can be wrapped when calling `setRootModule`,
 // which is useful for testing
 export let rootModule;
