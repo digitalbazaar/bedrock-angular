@@ -1,5 +1,10 @@
 # bedrock-angular ChangeLog
 
+## 3.0.1 - 2017-06-26
+
+### Fixed
+- Pass optional callback through to `jsonld.documentLoader`.
+
 ## 3.0.0 - 2017-06-04
 
 ### Added
