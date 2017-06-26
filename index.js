@@ -308,12 +308,12 @@ function run($http, $location, $rootScope, $window, config) {
   // configure default document loader to load contexts locally
   jsonld.useDocumentLoader('xhr', {secure: true});
   const documentLoader = jsonld.documentLoader;
-  jsonld.documentLoader = url => {
+  jsonld.documentLoader = (url, callback) => {
     // TODO: add integration w/$http cache
     if(url in config.data.contextMap) {
       url = config.data.contextMap[url];
     }
-    return documentLoader(url);
+    return documentLoader(url, callback);
   };
 
   // default headers
