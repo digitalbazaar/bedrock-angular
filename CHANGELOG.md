@@ -1,5 +1,10 @@
 # bedrock-angular ChangeLog
 
+## 3.0.2 - 2017-06-28
+
+### Fixed
+- Handle bad/missing root module error/warning cases.
+
 ## 3.0.1 - 2017-06-26
 
 ### Fixed
