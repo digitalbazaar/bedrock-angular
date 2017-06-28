@@ -23,6 +23,11 @@ export let rootModule;
  * @param appModule the module for the main application.
  */
 export function setRootModule(appModule) {
+  if(!(appModule && typeof appModule === 'object' && 'name' in appModule)) {
+    throw new Error(
+      '`appModule` must be an AngularJS module created via ' +
+      '`angular.module(moduleName, [moduleDep1, moduleDep2, ...])`.');
+  }
   rootModule = appModule;
 }
 
@@ -67,6 +72,13 @@ export function bootstrap(appModule) {
     appModule = rootModule;
   } else {
     rootModule = appModule;
+  }
+
+  if(!appModule) {
+    console.warn(
+      'The root AngularJS module has not been set. You must import and call ' +
+      'the `setRootModule()` method from `bedrock-angular`.');
+    appModule = angular.module('_blank', []);
   }
 
   // wrap app module to ensure bedrock is required
