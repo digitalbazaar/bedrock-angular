@@ -6,7 +6,5 @@
 export default function factory() {
   const service = {};
 
-  service.theme = 'bootstrap';
-
   return service;
 }

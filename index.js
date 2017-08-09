@@ -12,7 +12,7 @@ import jsonld from 'jsonld';
 import 'angular-route';
 import AppComponent from './app-component.js';
 import RouteLoadingComponent from './route-loading-component.js';
-import ThemeService from './theme-service.js';
+import ConfigService from './config-service.js';
 
 // access to the root module; can be wrapped when calling `setRootModule`,
 // which is useful for testing
@@ -137,7 +137,7 @@ const module = angular.module('bedrock', ['ngRoute']);
 // register root components
 module.component('brApp', AppComponent);
 module.component('brRouteLoading', RouteLoadingComponent);
-module.service('brThemeService', ThemeService);
+module.service('brConfigService', ConfigService);
 
 // module config and run
 module
