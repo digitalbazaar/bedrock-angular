@@ -1,5 +1,10 @@
 # bedrock-angular ChangeLog
 
+## 3.1.2 - 2017-08-24
+
+### Fixed
+- Do not show console warning when bootstrap is deliberately disabled.
+
 ## 3.1.1 - 2017-08-24
 
 ### Fixed
