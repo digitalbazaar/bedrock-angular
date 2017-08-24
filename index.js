@@ -79,6 +79,9 @@ export function bootstrap(appModule) {
       'The root AngularJS module has not been set. You must import and call ' +
       'the `setRootModule()` method from `bedrock-angular`. ' +
       'Bootstrapping the AngularJS application has been aborted.');
+    // clear br-app content
+    const root = angular.element(document.querySelector('br-app'));
+    root.empty();
     return;
   }
 
