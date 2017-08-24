@@ -1,5 +1,11 @@
 # bedrock-angular ChangeLog
 
+## 3.0.3 - 2017-08-24
+
+### Fixed
+- Issue warning and return when no root module has
+  been set and bootstrap is called.
+
 ## 3.0.2 - 2017-06-28
 
 ### Fixed
