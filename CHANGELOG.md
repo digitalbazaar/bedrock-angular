@@ -1,5 +1,10 @@
 # bedrock-angular ChangeLog
 
+## 3.1.1 - 2017-08-24
+
+### Fixed
+- Clear br-app contents when no root module is set.
+
 ## 3.1.0 - 2017-08-24
 
 ### Added
