@@ -23,6 +23,11 @@ export let rootModule;
  * @param appModule the module for the main application.
  */
 export function setRootModule(appModule) {
+  if(appModule === false) {
+    // disable bootstrapping the application
+    rootModule = false;
+    return;
+  }
   if(!(appModule && typeof appModule === 'object' && 'name' in appModule)) {
     throw new Error(
       '`appModule` must be an AngularJS module created via ' +
@@ -75,10 +80,13 @@ export function bootstrap(appModule) {
   }
 
   if(!appModule) {
-    console.warn(
-      'The root AngularJS module has not been set. You must import and call ' +
-      'the `setRootModule()` method from `bedrock-angular`. ' +
-      'Bootstrapping the AngularJS application has been aborted.');
+    // only warn when appModule is not deliberately set to `false`
+    if(appModule !== false) {
+      console.warn(
+        'The root AngularJS module has not been set. You must import and call ' +
+        'the `setRootModule()` method from `bedrock-angular`. ' +
+        'Bootstrapping the AngularJS application has been aborted.');
+    }
     // clear br-app content
     const root = angular.element(document.querySelector('br-app'));
     root.empty();
