@@ -3,6 +3,10 @@
  *
  * Copyright (c) 2012-2017 Digital Bazaar, Inc. All rights reserved.
  */
+@br-activity-bar-base-color: #33aae6;
+@br-activity-bar-background-color: darken(@br-activity-bar-base-color, 5%);
+@br-activity-bar-line-color: lighten(@br-activity-bar-base-color, 40%);
+
 /* Hide AngularJS templates prior to bootstrapping AngularJS */
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none;
@@ -55,6 +59,7 @@ a {
 }
 
 /* Route loading animation */
+.br-app-load-spinner-container,
 .br-route-load-spinner-container {
   position: absolute;
   top: 0;
@@ -63,11 +68,46 @@ a {
   height: 100vh;
   min-height: 300px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
 }
+.br-app-load-spinner,
 .br-route-load-spinner {
   flex: 1 0 auto;
+}
+
+/* Activity bar */
+@keyframes br-pulse-animation {
+  0% {
+    left: -50%;
+  }
+  50% {
+    left: 50%;
+  }
+  100% {
+    left: -50%;
+  }
+}
+.br-activity-bar {
+  height: 3px;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  background-color: @br-activity-bar-background-color;
+}
+.br-activity-bar .br-activity-line {
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  animation-name: br-pulse-animation;
+  animation-timing-function: ease-in-out;
+  background-image: linear-gradient(
+    to right,
+    @br-activity-bar-background-color,
+    @br-activity-bar-line-color 50%,
+    @br-activity-bar-background-color 100%);
+  height: 100%;
+  width: 100%;
+  position: absolute;
 }
 
 /* Flexbox convenience classes */
