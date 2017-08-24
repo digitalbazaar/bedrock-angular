@@ -1,5 +1,10 @@
 # bedrock-angular ChangeLog
 
+## 3.1.0 - 2017-08-24
+
+### Added
+- Improve route load spinner and add app load spinner CSS.
+
 ## 3.0.3 - 2017-08-24
 
 ### Fixed
