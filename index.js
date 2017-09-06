@@ -142,7 +142,7 @@ function notifyIfRendered() {
 export const config = {data: window.data};
 
 // main bedrock module
-const module = angular.module('bedrock', ['ngRoute', 'bedrock.jsonld']);
+const module = angular.module('bedrock', ['ngRoute']);
 
 // register root components
 module.component('brApp', AppComponent);

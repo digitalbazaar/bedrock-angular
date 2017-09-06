@@ -6,8 +6,7 @@
   "less": "app.less",
   "dependencies": {
     "angular": "~1.6.4",
-    "angular-route": "~1.6.4",
-    "bedrock-angular-jsonld": "^1.0.1"
+    "angular-route": "~1.6.4"
   },
   "bedrock": {
     "browserDependencies": "all"
