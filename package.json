@@ -7,7 +7,7 @@
   "dependencies": {
     "angular": "~1.6.4",
     "angular-route": "~1.6.4",
-    "jsonld": "~0.4.2"
+    "bedrock-angular-jsonld": "^1.0.1"
   },
   "bedrock": {
     "browserDependencies": "all"

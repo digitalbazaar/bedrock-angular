@@ -8,7 +8,6 @@
 'use strict';
 
 import angular from 'angular';
-import jsonld from 'jsonld';
 import 'angular-route';
 import AppComponent from './app-component.js';
 import RouteLoadingComponent from './route-loading-component.js';
@@ -143,7 +142,7 @@ function notifyIfRendered() {
 export const config = {data: window.data};
 
 // main bedrock module
-const module = angular.module('bedrock', ['ngRoute']);
+const module = angular.module('bedrock', ['ngRoute', 'bedrock.jsonld']);
 
 // register root components
 module.component('brApp', AppComponent);
@@ -327,18 +326,6 @@ function configure(
 function run($http, $location, $rootScope, $window, config) {
   /* Note: $route is injected above to trigger watching routes to ensure
     pages are loaded properly. */
-
-  // TODO: move this into a new brJsonLdService? needs to load early though
-  // configure default document loader to load contexts locally
-  jsonld.useDocumentLoader('xhr', {secure: true});
-  const documentLoader = jsonld.documentLoader;
-  jsonld.documentLoader = (url, callback) => {
-    // TODO: add integration w/$http cache
-    if(url in config.data.contextMap) {
-      url = config.data.contextMap[url];
-    }
-    return documentLoader(url, callback);
-  };
 
   // default headers
   $http.defaults.headers.common.Accept =
