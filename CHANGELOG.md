@@ -1,5 +1,12 @@
 # bedrock-angular ChangeLog
 
+## 4.0.0 - 2017-09-06
+
+### Removed
+- Do not include `bedrock-angular-jsonld` by default. Projects
+  that use JSON-LD in their AngularJS app should include it
+  as a dependency on their own.
+
 ## 3.2.0 - 2017-09-06
 
 ### Changed
