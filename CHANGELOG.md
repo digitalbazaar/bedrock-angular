@@ -1,5 +1,10 @@
 # bedrock-angular ChangeLog
 
+## 3.2.0 - 2017-09-06
+
+### Changed
+- Provide JSON-LD support via `bedrock-angular-jsonld` dependency.
+
 ## 3.1.2 - 2017-08-24
 
 ### Fixed
