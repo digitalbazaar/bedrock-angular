@@ -1,5 +1,10 @@
 # bedrock-angular ChangeLog
 
+## 4.0.1 - 2017-09-19
+
+### Fixed
+- Use `window` instead of `global`.
+
 ## 4.0.0 - 2017-09-06
 
 ### Removed
