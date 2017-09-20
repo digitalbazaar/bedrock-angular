@@ -62,13 +62,13 @@ export function setStart(fn) {
  * @param [appModule] the root module for the main application.
  */
 export function bootstrap(appModule) {
-  if(global._bedrock && global._bedrock.bootstrapped) {
+  if(window._bedrock && window._bedrock.bootstrapped) {
     console.warn('bedrock.bootstrap called more than once; ignoring.');
     return;
   }
 
   // note that bedrock application has been bootstrapped
-  global._bedrock = {
+  window._bedrock = {
     bootstrapped: true
   };
 
