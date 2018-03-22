@@ -44,11 +44,12 @@ export function setRootModule(appModule) {
 export let start = bootstrap;
 
 /**
- * Replaces `start` with another function. The caller of this function is
- * responsible for calling `bootstrap` at a later point to cause the angular
- * application to be bootstrapped. This is useful as a test hook; a test module
- * may call `setStart` to get control over the startup process and
- * delay bootstrapping an application until some other event has occurred.
+ * Replaces `start` with another function. The function `fn` is responsible
+ * for calling `bootstrap` to cause the angular application to be bootstrapped;
+ * if it does not, then `bootstrap` must be manually called when appropriate.
+ * This is useful as a test hook; a test module may call `setStart` to get
+ * control over the startup process and delay bootstrapping an application
+ * until some other event has occurred.
  *
  * @param fn the new start function to call.
  */
