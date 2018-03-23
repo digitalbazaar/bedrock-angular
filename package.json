@@ -1,6 +1,6 @@
 {
   "name": "bedrock-angular",
-  "version": "4.1.0",
+  "version": "4.1.1-0",
   "description": "Bedrock AngularJS Framework.",
   "main": "index.js",
   "less": "app.less",
