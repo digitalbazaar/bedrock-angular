@@ -1,5 +1,7 @@
 # bedrock-angular ChangeLog
 
+## 4.1.0 - 2018-03-22
+
 ### Changed
 - Use `bedrock-frontend` to start.
 
