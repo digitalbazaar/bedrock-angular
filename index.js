@@ -1,16 +1,20 @@
 /*!
  * Main Bedrock Application module.
  *
- * Copyright (c) 2012-2017 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2012-2018 Digital Bazaar, Inc. All rights reserved.
  *
  * @author Dave Longley
  */
 'use strict';
 
+import {ready} from 'bedrock-frontend';
 import angular from 'angular';
 import 'angular-route';
 import AppComponent from './app-component.js';
 import RouteLoadingComponent from './route-loading-component.js';
+
+// start once bedrock frontend is ready
+ready.then(() => start());
 
 // access to the root module; can be wrapped when calling `setRootModule`,
 // which is useful for testing
