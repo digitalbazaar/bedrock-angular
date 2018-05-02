@@ -7,13 +7,13 @@
  */
 'use strict';
 
-import {ready} from 'bedrock-frontend';
+import {ready} from 'bedrock-web';
 import angular from 'angular';
 import 'angular-route';
 import AppComponent from './app-component.js';
 import RouteLoadingComponent from './route-loading-component.js';
 
-// start once bedrock frontend is ready
+// start once bedrock web app is ready
 ready.then(() => start());
 
 // access to the root module; can be wrapped when calling `setRootModule`,
