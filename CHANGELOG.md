@@ -1,5 +1,10 @@
 # bedrock-angular ChangeLog
 
+## 4.1.1 - 2018-05-02
+
+### Changed
+- Use `bedrock-web` to start.
+
 ## 4.1.0 - 2018-03-22
 
 ### Changed
