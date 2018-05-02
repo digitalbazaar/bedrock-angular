@@ -7,7 +7,7 @@
   "dependencies": {
     "angular": "~1.6.4",
     "angular-route": "~1.6.4",
-    "bedrock-frontend": "^1.0.0"
+    "bedrock-web": "^1.0.0"
   },
   "bedrock": {
     "browserDependencies": "all"
