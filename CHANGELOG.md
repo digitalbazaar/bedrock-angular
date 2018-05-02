@@ -1,5 +1,10 @@
 # bedrock-angular ChangeLog
 
+## 4.1.2 - 2018-05-02
+
+### Fixed
+- Fix import of `bedrock-web`.
+
 ## 4.1.1 - 2018-05-02
 
 ### Changed
