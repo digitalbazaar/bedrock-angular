@@ -5,7 +5,7 @@
   "main": "index.js",
   "less": "app.less",
   "dependencies": {
-    "angular": "~1.6.4",
+    "angular": "~1.8.0",
     "angular-route": "~1.6.4",
     "bedrock-web": "^1.0.0"
   },
